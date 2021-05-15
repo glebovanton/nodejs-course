@@ -2,12 +2,12 @@ const USERS = [];
 
 const deleteUser = async (id) => {
   // TODO: mock implementation. should be replaced during task development
-  const userIndex = USERS.findIndex((user) => user.id === id);
+  const userIndex = USERS.findIndex((user) => user && user.id === id);
   if (userIndex >= 0) {
     // delete USERS[userIndex];
     return USERS.splice(userIndex, 1)[0];
   }
-  return USERS
+  return USERS;
 };
 
 const getAllUsers = async () =>
@@ -22,11 +22,11 @@ const postUser = async (user) => {
 
 const getUserById = async (id) =>
   // TODO: mock implementation. should be replaced during task development
-  USERS.find((user) => user.id === id);
+  USERS.find((user) => user && user.id === id);
 
 const updateUser = async (newUser) => {
   // TODO: mock implementation. should be replaced during task development
-  const userIndex = USERS.findIndex((user) => user.id === newUser.id);
+  const userIndex = USERS.findIndex((user) => user && user.id === newUser.id);
   if (userIndex >= 0) {
     USERS[userIndex] = newUser;
     return USERS[userIndex];

@@ -4,8 +4,8 @@ const deleteUserInTasks = async (userId) => {
   // TODO: mock implementation. should be replaced during task development
   const selectedTasks = TASKS.filter((task) => task.userId === userId);
   selectedTasks.forEach((task) => {
-    // eslint-disable-next-line no-param-reassign
-    task.userId = null;
+    const currentTask = task;
+    currentTask.userId = null;
   });
 };
 
@@ -13,8 +13,8 @@ const deleteBoardInTasks = async (boardId) => {
   // TODO: mock implementation. should be replaced during task development
   const selectedTasks = TASKS.filter((task) => task.boardId === boardId);
   selectedTasks.forEach((task) => {
-    // eslint-disable-next-line no-param-reassign
-    task.boardId = null;
+    const currentTask = task;
+    currentTask.boardId = null;
   });
 };
 

@@ -1,11 +1,13 @@
+const { deleteUserInTasks } = require('../tasks/task.memory.repository');
+
 const USERS = [];
 
 const deleteUser = async (id) => {
   // TODO: mock implementation. should be replaced during task development
   const userIndex = USERS.findIndex((user) => user && user.id === id);
   if (userIndex >= 0) {
-    // delete USERS[userIndex];
-    return USERS.splice(userIndex, 1)[0];
+    USERS.splice(userIndex, 1);
+    await deleteUserInTasks(id);
   }
   return USERS;
 };

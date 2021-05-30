@@ -1,23 +1,23 @@
 import { v4 as uuidv4 } from 'uuid';
 
 export interface ITask {
-  id?: number;
+  id?: string;
   title: string;
   order: number;
   description: string;
-  userId?: number | null;
-  boardId?: number | null;
-  columnId?: number | null;
+  userId?: string | null;
+  boardId?: string | null;
+  columnId?: string | null;
 }
 
 export class Task implements ITask {
-  boardId?: number | null;
-  columnId?: number | null;
+  boardId?: string | null;
+  columnId?: string | null;
   description: string;
-  id?: number;
+  id?: string;
   order: number;
   title: string;
-  userId?: number | null;
+  userId?: string | null;
   /**
    * @param {number} id The task's id
    * @param {string} title The task's title
@@ -28,7 +28,7 @@ export class Task implements ITask {
    * @param {number} columnId The task's column ID
    */
   constructor({
-    id = Number.parseInt(uuidv4()),
+    id = uuidv4(),
     title = 'task',
     order = 0,
     description = '',

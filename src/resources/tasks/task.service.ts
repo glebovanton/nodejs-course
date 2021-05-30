@@ -10,7 +10,7 @@ import { ITask } from './task.model';
  * @param {number} boardId board ID
  * @returns {Promise.<Task[]>} array of tasks
  */
-const getTasksByBoardId = (boardId: number): Promise<ITask[]> =>
+const getTasksByBoardId = (boardId: string): Promise<ITask[]> =>
   tasksRepo.getTasksByBoardId(boardId);
 
 /**
@@ -33,8 +33,8 @@ const postTask = (task: ITask): Promise<ITask> => tasksRepo.postTask(task);
  * @returns {Promise.<?Task>} task
  */
 const getTaskByBoardIdAndTaskId = (
-  boardId: number,
-  taskId: number
+  boardId: string,
+  taskId: string
 ): Promise<ITask | null> =>
   tasksRepo.getTaskByBoardIdAndTaskId(boardId, taskId);
 
@@ -58,7 +58,7 @@ const updateTask = (task: ITask): Promise<ITask | null> =>
  * @param {number} taskId task ID
  * @returns {Promise.<boolean>} id task is deleted
  */
-const deleteTask = (boardId: number, taskId: number): Promise<boolean> =>
+const deleteTask = (boardId: string, taskId: string): Promise<boolean> =>
   tasksRepo.deleteTask(boardId, taskId);
 
 export {

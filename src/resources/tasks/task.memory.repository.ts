@@ -9,7 +9,7 @@ const TASKS: ITask[] = [];
  * @param {number} userId user ID
  * @returns {Promise.<Void>}
  */
-const deleteUserInTasks = async (userId: number): Promise<void> => {
+const deleteUserInTasks = async (userId: string): Promise<void> => {
   // TODO: mock implementation. should be replaced during task development
   const selectedTasks = TASKS.filter((task: ITask) => task.userId === userId);
   selectedTasks.forEach((task: ITask) => {
@@ -26,7 +26,7 @@ const deleteUserInTasks = async (userId: number): Promise<void> => {
  * @param {number} boardId board ID
  * @returns {Promise.<Void>}
  */
-const deleteBoardInTasks = async (boardId: number): Promise<void> => {
+const deleteBoardInTasks = async (boardId: string): Promise<void> => {
   // TODO: mock implementation. should be replaced during task development
   const selectedTasks = TASKS.filter((task: ITask) => task.boardId === boardId);
   selectedTasks.forEach((task: ITask) => {
@@ -43,7 +43,7 @@ const deleteBoardInTasks = async (boardId: number): Promise<void> => {
  * @param {number} boardId board ID
  * @returns {Promise.<Task[]>} array of tasks
  */
-const getTasksByBoardId = async (boardId: number): Promise<ITask[]> =>
+const getTasksByBoardId = async (boardId: string): Promise<ITask[]> =>
   // TODO: mock implementation. should be replaced during task development
   TASKS.filter((task: ITask) => task?.boardId === boardId) || [];
 
@@ -71,8 +71,8 @@ const postTask = async (task: ITask): Promise<ITask> => {
  * @returns {Promise.<?Task>} task
  */
 const getTaskByBoardIdAndTaskId = async (
-  boardId: number,
-  taskId: number
+  boardId: string,
+  taskId: string
 ): Promise<ITask | null> =>
   // TODO: mock implementation. should be replaced during task development
   TASKS.find(
@@ -127,8 +127,8 @@ const updateTask = async (task: ITask): Promise<ITask | null> => {
  * @returns {Promise.<boolean>} id task is deleted
  */
 const deleteTask = async (
-  boardId: number,
-  taskId: number
+  boardId: string,
+  taskId: string
 ): Promise<boolean> => {
   // TODO: mock implementation. should be replaced during task development
   const deleteCount = 1;

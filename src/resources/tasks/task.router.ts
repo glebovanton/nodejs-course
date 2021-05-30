@@ -1,4 +1,4 @@
-import express from 'express';
+import * as express from 'express';
 import { Task } from './task.model';
 import * as tasksService from './task.service';
 
@@ -6,7 +6,7 @@ import { ITask } from './task.model';
 
 import { Request, Response } from 'express';
 
-type RequestParams = { boardId?: number; taskId?: number; id?: number };
+type RequestParams = { boardId?: string; taskId?: string; id?: string };
 
 const router = express.Router();
 
@@ -34,15 +34,7 @@ router.route('/:boardId/tasks/').post(
   async (req: Request, res: Response): Promise<void> => {
     const { boardId }: RequestParams = req.params;
     const { title, order, description, userId, columnId }: ITask = req.body;
-    if (
-      boardId &&
-      title &&
-      order &&
-      description &&
-      userId &&
-      boardId &&
-      columnId
-    ) {
+    if (boardId && title && description && boardId) {
       const result: ITask = await tasksService.postTask(
         new Task({ title, order, description, userId, boardId, columnId })
       );

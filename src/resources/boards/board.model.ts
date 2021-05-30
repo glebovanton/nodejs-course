@@ -1,13 +1,13 @@
 import { v4 as uuidv4 } from 'uuid';
 
 export interface IColumn {
-  id?: number;
+  id?: string;
   title: string;
   order: number;
 }
 
 export interface IBoard {
-  id?: number;
+  id?: string;
   title: string;
   columns: IColumn[];
 }
@@ -20,7 +20,7 @@ export interface IBoard {
  */
 
 export class Board implements IBoard {
-  id?: number;
+  id?: string;
   title: string;
   columns: IColumn[];
   /**
@@ -29,7 +29,7 @@ export class Board implements IBoard {
    * @param {Column[]} columns The board's columns
    */
   constructor({
-    id = Number.parseInt(uuidv4()),
+    id = uuidv4(),
     title = 'task',
     columns = [],
   }: IBoard) {

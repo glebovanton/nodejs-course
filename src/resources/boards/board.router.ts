@@ -1,11 +1,11 @@
-import express from 'express';
+import * as express from 'express';
 import { Board } from './board.model';
 import * as boardsService from './board.service';
 
 import { Request, Response } from 'express';
 import { IBoard, IColumn } from './board.model';
 
-type RequestParams = { id?: number };
+type RequestParams = { id?: string };
 type RequestBody = { title?: string; columns?: IColumn[] };
 
 const router = express.Router();

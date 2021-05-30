@@ -37,7 +37,7 @@ const postBoard = async (newBoard: IBoard): Promise<IBoard> => {
  * @param {number} boardId board ID
  * @returns {Promise.<?Board>} board
  */
-const getBoardById = async (id: number): Promise<IBoard | null> =>
+const getBoardById = async (id: string): Promise<IBoard | null> =>
   // TODO: mock implementation. should be replaced during task development
   BOARDS.find((board: IBoard) => board?.id === id) || null;
 
@@ -70,7 +70,7 @@ const updateBoard = async (newBoard: IBoard): Promise<IBoard | null> => {
  * @param {number} id board ID
  * @returns {Promise.<boolean>} if board is deleted
  */
-const deleteBoard = async (boardId: number): Promise<boolean> => {
+const deleteBoard = async (boardId: string): Promise<boolean> => {
   // TODO: mock implementation. should be replaced during task development
   const boardIndex = BOARDS.findIndex((board: IBoard) => board?.id === boardId);
   if (boardIndex >= 0) {
@@ -81,4 +81,4 @@ const deleteBoard = async (boardId: number): Promise<boolean> => {
   return false;
 };
 
-export { deleteBoard, getAllBoards, getBoardById, postBoard, updateBoard };
+export { deleteBoard, getAllBoards, getBoardById, postBoard, updateBoard }

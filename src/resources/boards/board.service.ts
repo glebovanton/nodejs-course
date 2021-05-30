@@ -28,7 +28,7 @@ const postBoard = (board: IBoard): Promise<IBoard> => boardsRepo.postBoard(board
  * @param {number} boardId board ID
  * @returns {Promise.<?Board>} board
  */
-const getBoardById = (id: number): Promise<IBoard | null> =>
+const getBoardById = (id: string): Promise<IBoard | null> =>
   boardsRepo.getBoardById(id);
 
 /**
@@ -50,7 +50,7 @@ const updateBoard = (board: IBoard): Promise<IBoard | null> =>
  * @param {number} id board ID
  * @returns {Promise.<boolean>} if board is deleted
  */
-const deleteBoard = (id: number): Promise<boolean> =>
+const deleteBoard = (id: string): Promise<boolean> =>
   boardsRepo.deleteBoard(id);
 
 export {

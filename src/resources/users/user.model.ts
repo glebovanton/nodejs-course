@@ -1,6 +1,18 @@
-const { v4: uuidv4 } = require('uuid');
+import { v4 as uuidv4 } from 'uuid';
 
-class User {
+export interface IUser {
+  id?: number;
+  name: string;
+  login: string;
+  password?: string;
+
+}
+
+export class User {
+  id?: number;
+  name: string;
+  login: string;
+  password?: string;
   /**
    * @param {number} id The user's id
    * @param {string} name The user's name
@@ -8,7 +20,7 @@ class User {
    * @param {?string} password The user's password
    */
   constructor({
-    id = uuidv4(),
+    id = Number.parseInt(uuidv4()),
     name = 'USER',
     login = 'user',
     password = 'P@55w0rd',
@@ -24,10 +36,8 @@ class User {
    * @param {User} user The user
    * @return {User} The user
    */
-  static toResponse(user) {
+  static toResponse(user: IUser): IUser {
     const { id, name, login } = user;
     return { id, name, login };
   }
 }
-
-module.exports = User;

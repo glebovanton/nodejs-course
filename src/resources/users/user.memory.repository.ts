@@ -1,6 +1,7 @@
-const { deleteUserInTasks } = require('../tasks/task.memory.repository');
+import { IUser } from './user.model';
+import { deleteUserInTasks } from '../tasks/task.memory.repository';
 
-const USERS = [];
+const USERS: IUser[] = [];
 
 /**
  * Returns all users
@@ -9,7 +10,7 @@ const USERS = [];
  * @function getAllUsers
  * @returns {Promise.<User[]>} array of users
  */
-const getAllUsers = async () =>
+const getAllUsers = async (): Promise<IUser[]> =>
   // TODO: mock implementation. should be replaced during task development
   USERS;
 
@@ -21,7 +22,7 @@ const getAllUsers = async () =>
  * @param {User} user user
  * @returns {Promise.<User>} added user
  */
-const postUser = async (user) => {
+const postUser = async (user: IUser): Promise<IUser> => {
   // TODO: mock implementation. should be replaced during task development
   USERS.push(user);
   return user;
@@ -35,9 +36,9 @@ const postUser = async (user) => {
  * @param {number} id user ID
  * @returns {Promise.<?User>} user
  */
-const getUserById = async (id) =>
+const getUserById = async (id: number): Promise<IUser | null> =>
   // TODO: mock implementation. should be replaced during task development
-  USERS.find((user) => user && user.id === id) || null;
+  USERS.find((user: IUser) => user && user.id === id) || null;
 
 /**
  * Updates user by user ID and returs updated user
@@ -47,12 +48,14 @@ const getUserById = async (id) =>
  * @param {User} newUser updated user
  * @returns {Promise.<?User>} user
  */
-const updateUser = async (newUser) => {
+const updateUser = async (newUser: IUser): Promise<IUser | null> => {
   // TODO: mock implementation. should be replaced during task development
-  const userIndex = USERS.findIndex((user) => user && user.id === newUser.id);
+  const userIndex = USERS.findIndex(
+    (user: IUser) => user && user.id === newUser.id
+  );
   if (userIndex >= 0) {
     USERS[userIndex] = newUser;
-    return USERS[userIndex];
+    return USERS[userIndex] || null;
   }
   return null;
 };
@@ -65,15 +68,17 @@ const updateUser = async (newUser) => {
  * @param {number} id user ID
  * @returns {Promise.<boolean>} if user is deleted
  */
-const deleteUser = async (id) => {
+const deleteUser = async (id: number): Promise<boolean> => {
   // TODO: mock implementation. should be replaced during task development
-  const userIndex = USERS.findIndex((user) => user && user.id === id);
+  const userIndex = USERS.findIndex((user: IUser) => user && user.id === id);
   if (userIndex >= 0) {
-    USERS.splice(userIndex, 1);
+    const deleteCount = 1;
+
+    USERS.splice(userIndex, deleteCount);
     await deleteUserInTasks(id);
     return true;
   }
   return false;
 };
 
-module.exports = { deleteUser, getAllUsers, getUserById, postUser, updateUser };
+export { deleteUser, getAllUsers, getUserById, postUser, updateUser };

@@ -1,4 +1,5 @@
-const usersRepo = require('./user.memory.repository');
+import * as usersRepo from './user.memory.repository'
+import { IUser } from './user.model';
 
 /**
  * Returns all users
@@ -7,7 +8,7 @@ const usersRepo = require('./user.memory.repository');
  * @function getAllUsers
  * @returns {Promise.<User[]>} array of users
  */
-const getAllUsers = () => usersRepo.getAllUsers();
+const getAllUsers = (): Promise<IUser[]> => usersRepo.getAllUsers();
 
 /**
  * Creates user
@@ -17,7 +18,7 @@ const getAllUsers = () => usersRepo.getAllUsers();
  * @param {User} user user
  * @returns {Promise.<User>} added user
  */
-const postUser = (user) => usersRepo.postUser(user);
+const postUser = (user: IUser): Promise<IUser> => usersRepo.postUser(user);
 
 /**
  * Returns user by user ID
@@ -27,7 +28,8 @@ const postUser = (user) => usersRepo.postUser(user);
  * @param {number} id user ID
  * @returns {Promise.<?User>} user
  */
-const getUserById = (id) => usersRepo.getUserById(id);
+const getUserById = (id: number): Promise<IUser | null> =>
+  usersRepo.getUserById(id);
 
 /**
  * Updates user by user ID and returs updated user
@@ -37,7 +39,8 @@ const getUserById = (id) => usersRepo.getUserById(id);
  * @param {User} newUser updated user
  * @returns {Promise.<?User>} user
  */
-const updateUser = (user) => usersRepo.updateUser(user);
+const updateUser = (user: IUser): Promise<IUser | null> =>
+  usersRepo.updateUser(user);
 
 /**
  * Deletes user by user ID
@@ -47,6 +50,6 @@ const updateUser = (user) => usersRepo.updateUser(user);
  * @param {number} id user ID
  * @returns {Promise.<boolean>} if user is deleted
  */
-const deleteUser = (id) => usersRepo.deleteUser(id);
+const deleteUser = (id: number): Promise<boolean> => usersRepo.deleteUser(id);
 
-module.exports = { deleteUser, getAllUsers, getUserById, postUser, updateUser };
+export { deleteUser, getAllUsers, getUserById, postUser, updateUser };

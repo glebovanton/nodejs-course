@@ -1,4 +1,5 @@
-const TASKS = [];
+import { ITask } from './task.model';
+const TASKS: ITask[] = [];
 
 /**
  * Deletes user in tasks
@@ -8,10 +9,10 @@ const TASKS = [];
  * @param {number} userId user ID
  * @returns {Promise.<Void>}
  */
-const deleteUserInTasks = async (userId) => {
+const deleteUserInTasks = async (userId: number): Promise<void> => {
   // TODO: mock implementation. should be replaced during task development
-  const selectedTasks = TASKS.filter((task) => task.userId === userId);
-  selectedTasks.forEach((task) => {
+  const selectedTasks = TASKS.filter((task: ITask) => task.userId === userId);
+  selectedTasks.forEach((task: ITask) => {
     const currentTask = task;
     currentTask.userId = null;
   });
@@ -25,10 +26,10 @@ const deleteUserInTasks = async (userId) => {
  * @param {number} boardId board ID
  * @returns {Promise.<Void>}
  */
-const deleteBoardInTasks = async (boardId) => {
+const deleteBoardInTasks = async (boardId: number): Promise<void> => {
   // TODO: mock implementation. should be replaced during task development
-  const selectedTasks = TASKS.filter((task) => task.boardId === boardId);
-  selectedTasks.forEach((task) => {
+  const selectedTasks = TASKS.filter((task: ITask) => task.boardId === boardId);
+  selectedTasks.forEach((task: ITask) => {
     const currentTask = task;
     currentTask.boardId = null;
   });
@@ -42,9 +43,9 @@ const deleteBoardInTasks = async (boardId) => {
  * @param {number} boardId board ID
  * @returns {Promise.<Task[]>} array of tasks
  */
-const getTasksByBoardId = async (boardId) =>
+const getTasksByBoardId = async (boardId: number): Promise<ITask[]> =>
   // TODO: mock implementation. should be replaced during task development
-  TASKS.filter((task) => task && task.boardId === boardId) || [];
+  TASKS.filter((task: ITask) => task?.boardId === boardId) || [];
 
 /**
  * Creates task
@@ -54,7 +55,7 @@ const getTasksByBoardId = async (boardId) =>
  * @param {Task} task the task
  * @returns {Promise.<Task>} task
  */
-const postTask = async (task) => {
+const postTask = async (task: ITask): Promise<ITask> => {
   // TODO: mock implementation. should be replaced during task development
   TASKS.push(task);
   return task;
@@ -67,38 +68,38 @@ const postTask = async (task) => {
  * @function getTaskByBoardIdAndTaskId
  * @param {number} boardId board ID
  * @param {number} taskId task ID
- * @returns {Promise.<Task>} task
+ * @returns {Promise.<?Task>} task
  */
-const getTaskByBoardIdAndTaskId = async (boardId, taskId) =>
+const getTaskByBoardIdAndTaskId = async (
+  boardId: number,
+  taskId: number
+): Promise<ITask | null> =>
   // TODO: mock implementation. should be replaced during task development
-  TASKS.find((task) => task && task.boardId === boardId && task.id === taskId);
+  TASKS.find(
+    (task: ITask) => task?.boardId === boardId && task?.id === taskId
+  ) || null;
 
 /**
  * Updates task
  *
  * @async
  * @function updateTask
- * @param {number} id the task's ID
- * @param {strinf} title the task's title
- * @param {number} order the task's order
- * @param {string} description the task's description
- * @param {number} userId the user's ID
- * @param {number} boardId the board's ID
- * @param {number} columnId the column's ID
+ * @param {Task} task the new task
  * @returns {Promise.<?Task>} updated task
  */
-const updateTask = async (
-  id,
-  title,
-  order,
-  description,
-  userId,
-  boardId,
-  columnId
-) => {
+const updateTask = async (task: ITask): Promise<ITask | null> => {
   // TODO: mock implementation. should be replaced during task development
-  const taskIndex = TASKS.findIndex(
-    (task) => task && task.boardId === boardId && task.id === id
+  const {
+    id,
+    title,
+    order,
+    description,
+    userId,
+    boardId,
+    columnId,
+  }: ITask = task;
+  const taskIndex: number = TASKS.findIndex(
+    (task: ITask) => task?.boardId === boardId && task.id === id
   );
   if (taskIndex >= 0) {
     TASKS[taskIndex] = {
@@ -111,7 +112,7 @@ const updateTask = async (
       boardId,
       columnId,
     };
-    return TASKS[taskIndex];
+    return TASKS[taskIndex] || null;
   }
   return null;
 };
@@ -125,19 +126,23 @@ const updateTask = async (
  * @param {number} taskId task ID
  * @returns {Promise.<boolean>} id task is deleted
  */
-const deleteTask = async (boardId, taskId) => {
+const deleteTask = async (
+  boardId: number,
+  taskId: number
+): Promise<boolean> => {
   // TODO: mock implementation. should be replaced during task development
-  const taskIndex = TASKS.findIndex(
-    (task) => task && task.boardId === boardId && task.id === taskId
+  const deleteCount = 1;
+  const taskIndex: number = TASKS.findIndex(
+    (task: ITask) => task?.boardId === boardId && task?.id === taskId
   );
   if (taskIndex >= 0) {
-    TASKS.splice(taskIndex, 1);
+    TASKS.splice(taskIndex, deleteCount);
     return true;
   }
   return false;
 };
 
-module.exports = {
+export {
   deleteBoardInTasks,
   deleteUserInTasks,
   deleteTask,

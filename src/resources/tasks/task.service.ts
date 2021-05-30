@@ -1,4 +1,6 @@
-const tasksRepo = require('./task.memory.repository');
+import * as tasksRepo from './task.memory.repository'
+
+import { ITask } from './task.model';
 
 /**
  * Get tasks by board ID
@@ -8,7 +10,8 @@ const tasksRepo = require('./task.memory.repository');
  * @param {number} boardId board ID
  * @returns {Promise.<Task[]>} array of tasks
  */
-const getTasksByBoardId = (boardId) => tasksRepo.getTasksByBoardId(boardId);
+const getTasksByBoardId = (boardId: number): Promise<ITask[]> =>
+  tasksRepo.getTasksByBoardId(boardId);
 
 /**
  * Creates task
@@ -18,7 +21,7 @@ const getTasksByBoardId = (boardId) => tasksRepo.getTasksByBoardId(boardId);
  * @param {Task} task the task
  * @returns {Promise.<Task>} task
  */
-const postTask = (task) => tasksRepo.postTask(task);
+const postTask = (task: ITask): Promise<ITask> => tasksRepo.postTask(task);
 
 /**
  * Returns task by board ID and task ID
@@ -27,9 +30,12 @@ const postTask = (task) => tasksRepo.postTask(task);
  * @function getTaskByBoardIdAndTaskId
  * @param {number} boardId board ID
  * @param {number} taskId task ID
- * @returns {Promise.<Task>} task
+ * @returns {Promise.<?Task>} task
  */
-const getTaskByBoardIdAndTaskId = (boardId, taskId) =>
+const getTaskByBoardIdAndTaskId = (
+  boardId: number,
+  taskId: number
+): Promise<ITask | null> =>
   tasksRepo.getTaskByBoardIdAndTaskId(boardId, taskId);
 
 /**
@@ -37,25 +43,11 @@ const getTaskByBoardIdAndTaskId = (boardId, taskId) =>
  *
  * @async
  * @function updateTask
- * @param {number} id the task's ID
- * @param {strinf} title the task's title
- * @param {number} order the task's order
- * @param {string} description the task's description
- * @param {number} userId the user's ID
- * @param {number} boardId the board's ID
- * @param {number} columnId the column's ID
+ * @param {Task} task the new task
  * @returns {Promise.<?Task>} updated task
  */
-const updateTask = (id, title, order, description, userId, boardId, columnId) =>
-  tasksRepo.updateTask(
-    id,
-    title,
-    order,
-    description,
-    userId,
-    boardId,
-    columnId
-  );
+const updateTask = (task: ITask): Promise<ITask | null> =>
+  tasksRepo.updateTask(task);
 
 /**
  * Deletes task by board ID and task ID
@@ -66,9 +58,10 @@ const updateTask = (id, title, order, description, userId, boardId, columnId) =>
  * @param {number} taskId task ID
  * @returns {Promise.<boolean>} id task is deleted
  */
-const deleteTask = (boardId, taskId) => tasksRepo.deleteTask(boardId, taskId);
+const deleteTask = (boardId: number, taskId: number): Promise<boolean> =>
+  tasksRepo.deleteTask(boardId, taskId);
 
-module.exports = {
+export {
   deleteTask,
   getTasksByBoardId,
   getTaskByBoardIdAndTaskId,

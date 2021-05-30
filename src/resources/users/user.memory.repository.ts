@@ -36,7 +36,7 @@ const postUser = async (user: IUser): Promise<IUser> => {
  * @param {number} id user ID
  * @returns {Promise.<?User>} user
  */
-const getUserById = async (id: number): Promise<IUser | null> =>
+const getUserById = async (id: string): Promise<IUser | null> =>
   // TODO: mock implementation. should be replaced during task development
   USERS.find((user: IUser) => user && user.id === id) || null;
 
@@ -68,7 +68,7 @@ const updateUser = async (newUser: IUser): Promise<IUser | null> => {
  * @param {number} id user ID
  * @returns {Promise.<boolean>} if user is deleted
  */
-const deleteUser = async (id: number): Promise<boolean> => {
+const deleteUser = async (id: string): Promise<boolean> => {
   // TODO: mock implementation. should be replaced during task development
   const userIndex = USERS.findIndex((user: IUser) => user && user.id === id);
   if (userIndex >= 0) {

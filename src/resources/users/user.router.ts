@@ -1,11 +1,11 @@
-import express from 'express';
+import * as express from 'express';
 import { User } from './user.model';
 import * as usersService from './user.service';
 
 import { IUser } from './user.model';
 import { Request, Response } from 'express';
 
-type RequestParams = { id?: number };
+type RequestParams = { id?: string };
 
 const router = express.Router();
 
@@ -48,11 +48,11 @@ router.route('/').post(
       typeof password === 'string'
     ) {
       const result: IUser = await usersService.postUser(
-        {
+        new User({
           name,
           login,
           password,
-        }
+        })
       );
       res.status(201).json(User.toResponse(result));
     } else {

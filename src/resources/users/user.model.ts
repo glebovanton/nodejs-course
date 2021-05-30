@@ -1,7 +1,7 @@
 import { v4 as uuidv4 } from 'uuid';
 
 export interface IUser {
-  id?: number;
+  id?: string;
   name: string;
   login: string;
   password?: string;
@@ -9,7 +9,7 @@ export interface IUser {
 }
 
 export class User {
-  id?: number;
+  id?: string;
   name: string;
   login: string;
   password?: string;
@@ -20,7 +20,7 @@ export class User {
    * @param {?string} password The user's password
    */
   constructor({
-    id = Number.parseInt(uuidv4()),
+    id = uuidv4(),
     name = 'USER',
     login = 'user',
     password = 'P@55w0rd',

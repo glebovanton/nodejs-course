@@ -28,7 +28,7 @@ const postUser = (user: IUser): Promise<IUser> => usersRepo.postUser(user);
  * @param {number} id user ID
  * @returns {Promise.<?User>} user
  */
-const getUserById = (id: number): Promise<IUser | null> =>
+const getUserById = (id: string): Promise<IUser | null> =>
   usersRepo.getUserById(id);
 
 /**
@@ -50,6 +50,6 @@ const updateUser = (user: IUser): Promise<IUser | null> =>
  * @param {number} id user ID
  * @returns {Promise.<boolean>} if user is deleted
  */
-const deleteUser = (id: number): Promise<boolean> => usersRepo.deleteUser(id);
+const deleteUser = (id: string): Promise<boolean> => usersRepo.deleteUser(id);
 
 export { deleteUser, getAllUsers, getUserById, postUser, updateUser };

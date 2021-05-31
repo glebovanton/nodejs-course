@@ -10,9 +10,13 @@ export interface IUser {
 
 export class User {
   id?: string;
+
   name: string;
+
   login: string;
+
   password?: string;
+
   /**
    * @param {number} id The user's id
    * @param {string} name The user's name

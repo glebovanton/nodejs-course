@@ -12,12 +12,19 @@ export interface ITask {
 
 export class Task implements ITask {
   boardId?: string | null;
+
   columnId?: string | null;
+
   description: string;
+
   id?: string;
+
   order: number;
+
   title: string;
+
   userId?: string | null;
+
   /**
    * @param {number} id The task's id
    * @param {string} title The task's title

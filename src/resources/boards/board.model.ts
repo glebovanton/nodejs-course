@@ -21,8 +21,11 @@ export interface IBoard {
 
 export class Board implements IBoard {
   id?: string;
+
   title: string;
+
   columns: IColumn[];
+
   /**
    * @param {number} id The board's id
    * @param {string} title The board's title

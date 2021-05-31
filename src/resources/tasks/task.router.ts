@@ -1,10 +1,10 @@
 import * as express from 'express';
-import { Task } from './task.model';
+import { Request, Response } from 'express';
+import { Task , ITask } from './task.model';
 import * as tasksService from './task.service';
 
-import { ITask } from './task.model';
 
-import { Request, Response } from 'express';
+
 
 type RequestParams = { boardId?: string; taskId?: string; id?: string };
 

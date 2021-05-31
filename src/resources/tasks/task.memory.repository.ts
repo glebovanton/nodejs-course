@@ -1,4 +1,5 @@
 import { ITask } from './task.model';
+
 const TASKS: ITask[] = [];
 
 /**
@@ -99,7 +100,7 @@ const updateTask = async (task: ITask): Promise<ITask | null> => {
     columnId,
   }: ITask = task;
   const taskIndex: number = TASKS.findIndex(
-    (task: ITask) => task?.boardId === boardId && task.id === id
+    (cursorTask: ITask) => cursorTask?.boardId === boardId && cursorTask.id === id
   );
   if (taskIndex >= 0) {
     TASKS[taskIndex] = {

@@ -1,9 +1,9 @@
 import * as express from 'express';
-import { User } from './user.model';
+import { Request, Response } from 'express';
+import { User , IUser } from './user.model';
 import * as usersService from './user.service';
 
-import { IUser } from './user.model';
-import { Request, Response } from 'express';
+
 
 type RequestParams = { id?: string };
 

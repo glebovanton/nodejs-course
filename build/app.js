@@ -1,4 +1,4 @@
-import express from 'express';
+import * as express from 'express';
 import * as swaggerUI from 'swagger-ui-express';
 import * as path from 'path';
 import * as YAML from 'yamljs';

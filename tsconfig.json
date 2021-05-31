@@ -15,11 +15,12 @@
     "noPropertyAccessFromIndexSignature": true,
     "moduleResolution": "node",
     "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true
   },
   "exclude": ["node_modules/"],
-  "include": ["./src/*.ts" ,"./src/**/*.ts"]
+  "include": ["./src/**/*.ts"]
 }

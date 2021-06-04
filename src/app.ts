@@ -1,4 +1,5 @@
 import express, { Request, Response, NextFunction } from 'express';
+import { createWriteStream } from 'fs';
 
 import * as swaggerUI from 'swagger-ui-express';
 import * as path from 'path';
@@ -7,10 +8,20 @@ import { userRouter } from './resources/users/user.router';
 import { boardRouter } from './resources/boards/board.router';
 import { taskRouter } from './resources/tasks/task.router';
 
+const morgan = require('morgan');
 const app = express();
 const swaggerDocument = YAML.load(path.join(__dirname, '../doc/api.yaml'));
 
 app.use(express.json());
+
+morgan.token('body', (req: Request): string => JSON.stringify(req.body));
+morgan.token('query', (req: Request): string => JSON.stringify(req.query));
+app.use(
+  morgan(
+    ':remote-addr - :remote-user [:date[clf]] ":referrer" ""Url- :url" "Method- :method" "Body-:body" "Query- :query" "Status- :status""',
+    { stream: createWriteStream('log/access.log') }
+  )
+);
 
 app.use('/doc', swaggerUI.serve, swaggerUI.setup(swaggerDocument));
 

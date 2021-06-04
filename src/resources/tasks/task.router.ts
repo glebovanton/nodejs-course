@@ -1,10 +1,8 @@
 import * as express from 'express';
 import { Request, Response } from 'express';
+import { CREATED, BAD_REQUEST, NO_CONTENT, NOT_FOUND } from 'http-status-codes';
 import { Task , ITask } from './task.model';
 import * as tasksService from './task.service';
-
-
-
 
 type RequestParams = { boardId?: string; taskId?: string; id?: string };
 
@@ -18,12 +16,12 @@ router.route('/:boardId/tasks/').get(
       if ((await tasks).length) {
         res.json(tasks);
       } else {
-        res.status(404).json({
+        res.status(NOT_FOUND).json({
           message: 'Tasks not found',
         });
       }
     } else {
-      res.status(400).json({
+      res.status(BAD_REQUEST).json({
         message: 'Bad request',
       });
     }
@@ -39,14 +37,14 @@ router.route('/:boardId/tasks/').post(
         new Task({ title, order, description, userId, boardId, columnId })
       );
       if (typeof title === 'string') {
-        res.status(201).json(Task.toResponse(result));
+        res.status(CREATED).json(Task.toResponse(result));
       } else {
-        res.status(400).json({
+        res.status(BAD_REQUEST).json({
           message: 'Bad request',
         });
       }
     } else {
-      res.status(400).json({
+      res.status(BAD_REQUEST).json({
         message: 'Bad request',
       });
     }
@@ -64,12 +62,12 @@ router.route('/:boardId/tasks/:taskId').get(
       if (task) {
         res.json(task);
       } else {
-        res.status(404).json({
+        res.status(NOT_FOUND).json({
           message: 'Task not found',
         });
       }
     } else {
-      res.status(400).json({
+      res.status(BAD_REQUEST).json({
         message: 'Bad request',
       });
     }
@@ -96,12 +94,12 @@ router.route('/:boardId/tasks/:id').put(
       if (typeof title === 'string' && result) {
         res.json(result);
       } else {
-        res.status(400).json({
+        res.status(BAD_REQUEST).json({
           message: 'Bad request',
         });
       }
     } else {
-      res.status(400).json({
+      res.status(BAD_REQUEST).json({
         message: 'Bad request',
       });
     }
@@ -114,16 +112,16 @@ router.route('/:boardId/tasks/:taskId').delete(
     if (boardId && taskId) {
       const result: boolean = await tasksService.deleteTask(boardId, taskId);
       if (result) {
-        res.status(204).json({
+        res.status(NO_CONTENT).json({
           message: 'The task has been deleted',
         });
       } else {
-        res.status(404).json({
+        res.status(NOT_FOUND).json({
           message: 'Task not found',
         });
       }
     } else {
-      res.status(400).json({
+      res.status(BAD_REQUEST).json({
         message: 'Bad request',
       });
     }

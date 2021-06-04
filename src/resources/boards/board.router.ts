@@ -1,9 +1,8 @@
 import * as express from 'express';
 import { Request, Response } from 'express';
+import { CREATED, BAD_REQUEST, NO_CONTENT, NOT_FOUND } from 'http-status-codes';
 import { Board , IBoard, IColumn } from './board.model';
 import * as boardsService from './board.service';
-
-
 
 type RequestParams = { id?: string };
 type RequestBody = { title?: string; columns?: IColumn[] };
@@ -26,12 +25,12 @@ router.route('/:id').get(
       if (board) {
         res.json(board);
       } else {
-        res.status(404).json({
+        res.status(NOT_FOUND).json({
           message: 'Board not found',
         });
       }
     } else {
-      res.status(400).json({
+      res.status(BAD_REQUEST).json({
         message: 'Bad request',
       });
     }
@@ -48,9 +47,9 @@ router.route('/').post(
       })
     );
     if (typeof title === 'string' && typeof columns === 'object') {
-      res.status(201).json(createdBoard);
+      res.status(CREATED).json(createdBoard);
     } else {
-      res.status(400).json({
+      res.status(BAD_REQUEST).json({
         message: 'Bad request',
       });
     }
@@ -70,12 +69,12 @@ router.route('/:id').put(
       if (typeof title === 'string' && typeof columns === 'object' && result) {
         res.json(result);
       } else {
-        res.status(400).json({
+        res.status(BAD_REQUEST).json({
           message: 'Bad request',
         });
       }
     } else {
-      res.status(400).json({
+      res.status(BAD_REQUEST).json({
         message: 'Bad request',
       });
     }
@@ -88,16 +87,16 @@ router.route('/:id').delete(
     if (id) {
       const result: boolean = await boardsService.deleteBoard(id);
       if (result) {
-        res.status(204).json({
+        res.status(NO_CONTENT).json({
           message: 'The board has been deleted',
         });
       } else {
-        res.status(404).json({
+        res.status(NOT_FOUND).json({
           message: 'Board not found',
         });
       }
     } else {
-      res.status(404).json({
+      res.status(NOT_FOUND).json({
         message: 'Board not found',
       });
     }

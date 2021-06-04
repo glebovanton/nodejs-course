@@ -1,9 +1,8 @@
 import * as express from 'express';
 import { Request, Response } from 'express';
+import { CREATED, BAD_REQUEST, NO_CONTENT, NOT_FOUND } from 'http-status-codes';
 import { User , IUser } from './user.model';
 import * as usersService from './user.service';
-
-
 
 type RequestParams = { id?: string };
 
@@ -27,12 +26,12 @@ router.route('/:id').get(
         // map user fields to exclude secret fields like "password"
         res.json(User.toResponse(user));
       } else {
-        res.status(404).json({
+        res.status(NOT_FOUND).json({
           message: 'User not found',
         });
       }
     } else {
-      res.status(400).json({
+      res.status(BAD_REQUEST).json({
         message: 'Bad request',
       });
     }
@@ -54,9 +53,9 @@ router.route('/').post(
           password,
         })
       );
-      res.status(201).json(User.toResponse(result));
+      res.status(CREATED).json(User.toResponse(result));
     } else {
-      res.status(400).json({
+      res.status(BAD_REQUEST).json({
         message: 'Bad request',
       });
     }
@@ -80,12 +79,12 @@ router.route('/:id').put(
       if (result) {
         res.json(User.toResponse(result));
       } else {
-        res.status(400).json({
+        res.status(BAD_REQUEST).json({
           message: 'Bad request',
         });
       }
     } else {
-      res.status(400).json({
+      res.status(BAD_REQUEST).json({
         message: 'Bad request',
       });
     }
@@ -100,16 +99,16 @@ router.route('/:id').delete(
       const isExist: boolean = (await users).some((user) => user.id === id);
       if (isExist) {
         await usersService.deleteUser(id);
-        res.status(204).json({
+        res.status(NO_CONTENT).json({
           message: 'The user has been deleted',
         });
       } else {
-        res.status(404).json({
+        res.status(NOT_FOUND).json({
           message: 'User not found',
         });
       }
     } else {
-      res.status(400).json({
+      res.status(BAD_REQUEST).json({
         message: 'Bad request',
       });
     }

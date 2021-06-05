@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "es2020",
+    "target": "es6",
     "module": "commonjs",
     "allowJs": false,
     "outDir": "./build",
@@ -13,14 +13,19 @@
     "noFallthroughCasesInSwitch": true,
     "noUncheckedIndexedAccess": true,
     "noPropertyAccessFromIndexSignature": true,
+    "forceConsistentCasingInFileNames": true,
     "moduleResolution": "node",
+    "sourceMap": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
+    "declaration": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "skipLibCheck": true,
-    "sourceMap": true,
-    "forceConsistentCasingInFileNames": true
+    "baseUrl": "./src",
+    "paths": {
+      "@src/*": ["src/*"]
+    }
   },
   "exclude": ["node_modules/"],
   "include": ["./src/**/*.ts"]

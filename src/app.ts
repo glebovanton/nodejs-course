@@ -10,7 +10,8 @@ import { boardRouter } from './resources/boards/board.router';
 import { userRouter } from './resources/users/user.router';
 import { taskRouter } from './resources/tasks/task.router';
 import { errorHandler } from './utils/errorHandler';
-import { ErrorType } from './types';
+
+import { ErrorTypeEnum } from './types';
 
 const { exit } = process;
 const app = express();
@@ -28,10 +29,10 @@ app.use(
   )
 );
 process.on('unhandledRejection', (error: Error) => {
-  errorHandler(error, ErrorType.UnhandledRejection);
+  errorHandler(error, ErrorTypeEnum.UnhandledRejection);
 });
 process.on('uncaughtException', (error: Error) => {
-  errorHandler(error, ErrorType.UncaughtException);
+  errorHandler(error, ErrorTypeEnum.UncaughtException);
   exit(1);
 });
 
@@ -49,7 +50,7 @@ app.use('/users', userRouter);
 app.use('/boards', boardRouter);
 app.use('/boards', taskRouter);
 app.use((error: Error, _req: Request, res: Response) => {
-  errorHandler(error, ErrorType.UnhandledError);
+  errorHandler(error, ErrorTypeEnum.UnhandledError);
   res
     .status(INTERNAL_SERVER_ERROR)
     .json({ success: false, message: error.message ? error.message : error });

@@ -3,11 +3,12 @@ import { createWriteStream, writeFileSync } from 'fs';
 import { INTERNAL_SERVER_ERROR } from 'http-status-codes';
 import morgan from 'morgan';
 
-enum ErrorTypeEnum {
-  UnhandledError = 'Unhandled error',
-  UnhandledRejection = 'Unhandled rejection',
-  UncaughtException = 'Uncaught exception',
-}
+// For Enum type we unfortunately have: 'ErrorTypeEnum' is already declared in the upper scope  no-shadow
+const ErrorTypeEnum = Object.freeze({
+  UnhandledError: 'Unhandled error',
+  UnhandledRejection: 'Unhandled rejection',
+  UncaughtException: 'Uncaught exception',
+});
 
 const accessLogSrteam = createWriteStream('log/accessLog.log');
 const { exit, stderr } = process;

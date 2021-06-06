@@ -2,7 +2,12 @@ import { Express, Request, Response } from 'express';
 import { createWriteStream, writeFileSync } from 'fs';
 import { INTERNAL_SERVER_ERROR } from 'http-status-codes';
 import morgan from 'morgan';
-import { ErrorTypeEnum } from '../types';
+
+enum ErrorTypeEnum {
+  UnhandledError = 'Unhandled error',
+  UnhandledRejection = 'Unhandled rejection',
+  UncaughtException = 'Uncaught exception',
+}
 
 const accessLogSrteam = createWriteStream('log/accessLog.log');
 const { exit, stderr } = process;

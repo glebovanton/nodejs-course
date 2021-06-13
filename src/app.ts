@@ -1,16 +1,29 @@
 import express, { Request, Response, NextFunction } from 'express';
-
-import * as swaggerUI from 'swagger-ui-express';
+import { NOT_FOUND } from 'http-status-codes';
 import * as path from 'path';
+import * as swaggerUI from 'swagger-ui-express';
 import * as YAML from 'yamljs';
-import { userRouter } from './resources/users/user.router';
+
 import { boardRouter } from './resources/boards/board.router';
+import { userRouter } from './resources/users/user.router';
 import { taskRouter } from './resources/tasks/task.router';
+import {
+  runInternalErrLogging,
+  runMorganLogging,
+  runUncaughtExceptLogging,
+  runUnhandledRejLogging,
+} from './utils/errorHandler';
 
 const app = express();
+
 const swaggerDocument = YAML.load(path.join(__dirname, '../doc/api.yaml'));
 
 app.use(express.json());
+
+runMorganLogging(app);
+
+runUnhandledRejLogging();
+runUncaughtExceptLogging();
 
 app.use('/doc', swaggerUI.serve, swaggerUI.setup(swaggerDocument));
 
@@ -25,5 +38,9 @@ app.use('/', (req: Request, res: Response, next: NextFunction) => {
 app.use('/users', userRouter);
 app.use('/boards', boardRouter);
 app.use('/boards', taskRouter);
+app.get('*', (_req: Request, res: Response) => {
+  res.status(NOT_FOUND).send('Route is not found');
+});
+runInternalErrLogging(app);
 
 export default app;

@@ -1,8 +1,10 @@
 # RS School REST service
 
-## Starting with docker
+## Running application with docker
 
-docker-compose up —build
+1. run docker
+2. change directory to project's root
+3. ```docker-compose up --build``` OR ```docker-compose build``` + ```docker-compose up```
 
 After starting the app on port (8080 as default) you can open
 in your browser OpenAPI documentation by typing ``http://localhost:8080/doc/``

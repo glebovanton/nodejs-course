@@ -1,5 +1,5 @@
 import * as usersRepo from './user.memory.repository'
-import { IUser } from './user.model';
+import { IUser } from '../../entities/User';
 
 const getAllUsers = (): Promise<IUser[]> => usersRepo.getAllUsers();
 

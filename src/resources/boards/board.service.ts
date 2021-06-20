@@ -1,23 +1,17 @@
-import { IBoard } from './board.model';
-import * as boardsRepo from './board.memory.repository'
+import { Board } from '../../entities/Board';
+import * as boardsRepo from './board.memory.repository';
 
-const getAllBoards = (): Promise<IBoard[]> => boardsRepo.getAllBoards();
+const getAllBoards = (): Promise<Board[]> => boardsRepo.getAllBoards();
 
-const postBoard = (board: IBoard): Promise<IBoard> => boardsRepo.postBoard(board);
+const postBoard = (board: Board): Promise<Board> => boardsRepo.postBoard(board);
 
-const getBoardById = (id: string): Promise<IBoard | null> =>
+const getBoardById = (id: string): Promise<Board | null> =>
   boardsRepo.getBoardById(id);
 
-const updateBoard = (board: IBoard): Promise<IBoard | null> =>
+const updateBoard = (board: Board): Promise<Board | null> =>
   boardsRepo.updateBoard(board);
 
 const deleteBoard = (id: string): Promise<boolean> =>
   boardsRepo.deleteBoard(id);
 
-export {
-  deleteBoard,
-  getAllBoards,
-  getBoardById,
-  postBoard,
-  updateBoard,
-};
+export { deleteBoard, getAllBoards, getBoardById, postBoard, updateBoard };

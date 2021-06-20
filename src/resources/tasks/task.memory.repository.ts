@@ -1,11 +1,12 @@
-import { ITask } from './task.model';
+import { getRepository } from 'typeorm';
+import { Task } from '../../entities/Task';
 
-const TASKS: ITask[] = [];
+const TASKS: Task[] = [];
 
 const deleteUserInTasks = async (userId: string): Promise<void> => {
   // TODO: mock implementation. should be replaced during task development
-  const selectedTasks = TASKS.filter((task: ITask) => task.userId === userId);
-  selectedTasks.forEach((task: ITask) => {
+  const selectedTasks = TASKS.filter((task: Task) => task.userId === userId);
+  selectedTasks.forEach((task: Task) => {
     const currentTask = task;
     currentTask.userId = null;
   });
@@ -13,75 +14,63 @@ const deleteUserInTasks = async (userId: string): Promise<void> => {
 
 const deleteBoardInTasks = async (boardId: string): Promise<void> => {
   // TODO: mock implementation. should be replaced during task development
-  const selectedTasks = TASKS.filter((task: ITask) => task.boardId === boardId);
-  selectedTasks.forEach((task: ITask) => {
+  const selectedTasks = TASKS.filter((task: Task) => task.boardId === boardId);
+  selectedTasks.forEach((task: Task) => {
     const currentTask = task;
     currentTask.boardId = null;
   });
 };
 
-const getTasksByBoardId = async (boardId: string): Promise<ITask[]> =>
-  // TODO: mock implementation. should be replaced during task development
-  TASKS.filter((task: ITask) => task?.boardId === boardId) || [];
+const getTasksByBoardId = async (boardId: string): Promise<Task[] | null> => {
+  const taskRepository = getRepository('Task');
+  const res = await taskRepository.find({ where: { boardId } });
+  // @ts-ignore
+  return res;
+  if (res === undefined) return null;
+  // @ts-ignore
+  return res;
+};
 
-const postTask = async (task: ITask): Promise<ITask> => {
-  // TODO: mock implementation. should be replaced during task development
-  TASKS.push(task);
-  return task;
+const postTask = async (dto: Task): Promise<Task> => {
+  const taskRepository = getRepository('Task');
+  const newTask = taskRepository.create(dto);
+  // @ts-ignore
+  const savedTask = await taskRepository.save(newTask);
+  // @ts-ignore
+  return savedTask;
 };
 
 const getTaskByBoardIdAndTaskId = async (
   boardId: string,
   taskId: string
-): Promise<ITask | null> =>
-  // TODO: mock implementation. should be replaced during task development
-  TASKS.find(
-    (task: ITask) => task?.boardId === boardId && task?.id === taskId
-  ) || null;
+): Promise<Task | null> => {
+  const taskRepository = getRepository('Task');
+  const res = await taskRepository.findOne({
+    where: { boardId, taskId },
+  });
+  if (res === undefined) return null;
+  // @ts-ignore
+  return res;
+};
 
-const updateTask = async (task: ITask): Promise<ITask | null> => {
-  // TODO: mock implementation. should be replaced during task development
-  const {
-    id,
-    title,
-    order,
-    description,
-    userId,
-    boardId,
-    columnId,
-  }: ITask = task;
-  const taskIndex: number = TASKS.findIndex(
-    (cursorTask: ITask) => cursorTask?.boardId === boardId && cursorTask.id === id
-  );
-  if (taskIndex >= 0) {
-    TASKS[taskIndex] = {
-      ...TASKS[taskIndex],
-      id,
-      title,
-      order,
-      description,
-      userId,
-      boardId,
-      columnId,
-    };
-    return TASKS[taskIndex] || null;
-  }
-  return null;
+const updateTask = async (dto: Task): Promise<Task | null> => {
+  const { id } = dto;
+  const taskRepository = getRepository('Task');
+  const res = await taskRepository.findOne(id);
+  if (res === undefined || !id) return null;
+  const updatedRes = await taskRepository.update(id, dto);
+  return updatedRes.raw;
 };
 
 const deleteTask = async (
   boardId: string,
   taskId: string
 ): Promise<boolean> => {
-  // TODO: mock implementation. should be replaced during task development
-  const deleteCount = 1;
-  const taskIndex: number = TASKS.findIndex(
-    (task: ITask) => task?.boardId === boardId && task?.id === taskId
-  );
-  if (taskIndex >= 0) {
-    TASKS.splice(taskIndex, deleteCount);
-    return true;
-  }
+  const taskRepository = getRepository('Task');
+  const deletedRes = await taskRepository.delete({
+    where: { boardId, taskId },
+  });
+  if (deletedRes.affected) return true;
   return false;
 };
 

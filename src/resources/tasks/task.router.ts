@@ -1,7 +1,7 @@
 import * as express from 'express';
 import { Request, Response } from 'express';
 import { CREATED, BAD_REQUEST, NO_CONTENT, NOT_FOUND } from 'http-status-codes';
-import { Task , ITask } from './task.model';
+import { Task } from '../../entities/Task';
 import * as tasksService from './task.service';
 
 type RequestParams = { boardId?: string; taskId?: string; id?: string };
@@ -12,8 +12,10 @@ router.route('/:boardId/tasks/').get(
   async (req: Request, res: Response): Promise<void> => {
     const { boardId }: RequestParams = req.params;
     if (boardId) {
-      const tasks: ITask[] = await tasksService.getTasksByBoardId(boardId);
-      if ((await tasks).length) {
+      const tasks: Task[] | null = await tasksService.getTasksByBoardId(
+        boardId
+      );
+      if ((await tasks)?.length) {
         res.json(tasks);
       } else {
         res.status(NOT_FOUND).json({
@@ -31,11 +33,16 @@ router.route('/:boardId/tasks/').get(
 router.route('/:boardId/tasks/').post(
   async (req: Request, res: Response): Promise<void> => {
     const { boardId }: RequestParams = req.params;
-    const { title, order, description, userId, columnId }: ITask = req.body;
+    const { title, order, description, userId, columnId }: Task = req.body;
     if (boardId && title && description && boardId) {
-      const result: ITask = await tasksService.postTask(
-        new Task({ title, order, description, userId, boardId, columnId })
-      );
+      const result: Task = await tasksService.postTask({
+        title,
+        order,
+        description,
+        userId,
+        boardId,
+        columnId,
+      });
       if (typeof title === 'string') {
         res.status(CREATED).json(Task.toResponse(result));
       } else {
@@ -55,7 +62,7 @@ router.route('/:boardId/tasks/:taskId').get(
   async (req: Request, res: Response): Promise<void> => {
     const { boardId, taskId }: RequestParams = req.params;
     if (boardId && taskId) {
-      const task: ITask | null = await tasksService.getTaskByBoardIdAndTaskId(
+      const task: Task | null = await tasksService.getTaskByBoardIdAndTaskId(
         boardId,
         taskId
       );
@@ -77,20 +84,18 @@ router.route('/:boardId/tasks/:taskId').get(
 router.route('/:boardId/tasks/:id').put(
   async (req: Request, res: Response): Promise<void> => {
     const { boardId, id }: RequestParams = req.params;
-    const { title, order, description, userId, columnId }: ITask = req.body;
+    const { title, order, description, userId, columnId }: Task = req.body;
 
     if (id) {
-      const result: ITask | null = await tasksService.updateTask(
-        new Task({
-          id,
-          title,
-          order,
-          description,
-          userId,
-          boardId,
-          columnId,
-        })
-      );
+      const result: Task | null = await tasksService.updateTask({
+        id,
+        title,
+        order,
+        description,
+        userId,
+        boardId,
+        columnId,
+      });
       if (typeof title === 'string' && result) {
         res.json(result);
       } else {

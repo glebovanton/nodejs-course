@@ -17,12 +17,6 @@ export class User {
 
   password?: string;
 
-  /**
-   * @param {number} id The user's id
-   * @param {string} name The user's name
-   * @param {string} login The user's login
-   * @param {?string} password The user's password
-   */
   constructor({
     id = uuidv4(),
     name = 'USER',
@@ -35,11 +29,6 @@ export class User {
     this.password = password;
   }
 
-  /**
-   * Returns user for response.
-   * @param {User} user The user
-   * @return {User} The user
-   */
   static toResponse(user: IUser): IUser {
     const { id, name, login } = user;
     return { id, name, login };

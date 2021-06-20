@@ -12,13 +12,6 @@ export interface IBoard {
   columns: IColumn[];
 }
 
-/**
- * @typedef {Object} Column
- * @property {number} id The column's id
- * @property {string} title The column's title
- * @property {number} order The column's order
- */
-
 export class Board implements IBoard {
   id?: string;
 
@@ -26,11 +19,6 @@ export class Board implements IBoard {
 
   columns: IColumn[];
 
-  /**
-   * @param {number} id The board's id
-   * @param {string} title The board's title
-   * @param {Column[]} columns The board's columns
-   */
   constructor({
     id = uuidv4(),
     title = 'task',

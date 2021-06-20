@@ -25,15 +25,6 @@ export class Task implements ITask {
 
   userId?: string | null;
 
-  /**
-   * @param {number} id The task's id
-   * @param {string} title The task's title
-   * @param {number} order The task's order
-   * @param {string} description The task's description
-   * @param {number} userId The task's user ID
-   * @param {number} boardId The task's board ID
-   * @param {number} columnId The task's column ID
-   */
   constructor({
     id = uuidv4(),
     title = 'task',
@@ -52,11 +43,6 @@ export class Task implements ITask {
     this.columnId = columnId;
   }
 
-  /**
-   * Returns task for response.
-   * @param {Task} task The task
-   * @return {Task} The task
-   */
   static toResponse(task: ITask): ITask {
     const { id, title, order, description, userId, boardId, columnId } = task;
     return { id, title, order, description, userId, boardId, columnId };

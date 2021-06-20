@@ -1,0 +1,37 @@
+version: '3'
+services:
+  app:
+    build: .
+    container_name: rss_app
+    image: workglebov/rss_app
+    restart: always
+    command: npm run dev
+    volumes:
+      - ./log:/usr/app/log
+      - ./src:/usr/app/src
+    networks:
+      - custom-network
+    ports:
+      - ${PORT}:${PORT}
+    depends_on:
+      - postgres
+
+  postgres:
+    build: ./database/
+    container_name: rss_postgres
+    image: workglebov/rss_postgres
+    restart: always
+    ports:
+      - ${POSTGRES_PORT}:${POSTGRES_PORT}
+    volumes:
+      - ./database/log:/usr/app/database/log
+    networks:
+      - custom-network
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+networks:
+  custom-network:
+    name: custom-network
+    driver: bridge

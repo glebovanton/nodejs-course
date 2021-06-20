@@ -1,5 +1,14 @@
 # RS School REST service
 
+## Running application with docker
+
+1. run docker
+2. change directory to project's root
+3. ```docker-compose up --build``` OR ```docker-compose build``` + ```docker-compose up```
+
+After starting the app on port (8080 as default) you can open
+in your browser OpenAPI documentation by typing ``http://localhost:8080/doc/``
+
 ## Prerequisites
 
 - Git - [Download & Install Git](https://git-scm.com/downloads).
@@ -23,8 +32,8 @@ npm install
 npm start
 ```
 
-After starting the app on port (4000 as default) you can open
-in your browser OpenAPI documentation by typing http://localhost:4000/doc/.
+After starting the app on port (8080 as default) you can open
+in your browser OpenAPI documentation by typing http://localhost:8080/doc/.
 For more information about OpenAPI/Swagger please visit https://swagger.io/.
 
 ## Testing

@@ -4,4 +4,4 @@ COPY  package*.json .
 RUN npm ci
 COPY . .
 EXPOSE ${PORT}
-RUN npm start
+CMD [ "npm", "run", "start" ]

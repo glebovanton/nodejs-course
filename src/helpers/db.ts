@@ -1,6 +1,6 @@
 import 'reflect-metadata';
 import { createConnection } from 'typeorm';
-import ORMConfig from '../common/ormconfig';
+import ORMConfig from '../ormconfig';
 
 const { stdout, stderr } = process;
 

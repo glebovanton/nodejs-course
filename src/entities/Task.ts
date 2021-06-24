@@ -37,10 +37,10 @@ export class Task {
   userId?: string | null;
 
   @ManyToOne(() => User, { onDelete: 'SET NULL' })
-  user: User | undefined;
+  user: User | null;
 
   @ManyToOne(() => Board, { onDelete: 'CASCADE' })
-  board: Board | undefined;
+  board: Board | null;
 
   static toResponse(task: ITask): ITask {
     const { id, title, order, description, userId, boardId, columnId } = task;

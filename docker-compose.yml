@@ -10,6 +10,9 @@ services:
       - ./src:/usr/app/src
     networks:
       - custom-network
+    environment:
+      PORT: ${PORT}
+      NODE_ENV: ${NODE_ENV}
     ports:
       - ${PORT}:${PORT}
     depends_on:
@@ -21,10 +24,10 @@ services:
     image: workglebov/rss_postgres
     restart: always
     ports:
-      - ${POSTGRES_PORT}:${POSTGRES_CONTAINER_PORT}
+      - ${POSTGRES_CONTAINER_PORT}:${POSTGRES_CONTAINER_PORT}
     volumes:
-      - ./data:/var/lib/postgresql/data
-      - ./log:/var/lib/postgresql/log
+      - ./database/data:/var/lib/postgresql/data
+      - ./database/log:/var/lib/postgresql/log
     networks:
       - custom-network
     environment:

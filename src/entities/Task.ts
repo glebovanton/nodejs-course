@@ -1,4 +1,7 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
+
+import { User } from "./User";
+import { Board } from "./Board";
 
 export interface ITask {
   id?: string;
@@ -10,28 +13,34 @@ export interface ITask {
   columnId?: string | null;
 }
 
-@Entity('Task')
+@Entity()
 export class Task {
-  @Column('varchar', { length: 25, nullable: true })
+  @Column({ type: 'varchar', nullable: true })
   boardId?: string | null;
 
-  @Column('varchar', { length: 25, nullable: true })
+  @Column({ type: 'varchar', nullable: true })
   columnId?: string | null;
 
-  @Column('varchar', { length: 25 })
+  @Column()
   description: string;
 
-  @PrimaryGeneratedColumn('increment')
+  @PrimaryGeneratedColumn('uuid')
   id?: string;
 
-  @Column('int')
+  @Column()
   order: number;
 
-  @Column('varchar', { length: 25 })
+  @Column()
   title: string;
 
-  @Column('varchar', { length: 25, nullable: true })
+  @Column({ type: 'varchar', nullable: true })
   userId?: string | null;
+
+  @ManyToOne(() => User, { onDelete: 'SET NULL' })
+  user: User | undefined;
+
+  @ManyToOne(() => Board, { onDelete: 'CASCADE' })
+  board: Board | undefined;
 
   static toResponse(task: ITask): ITask {
     const { id, title, order, description, userId, boardId, columnId } = task;

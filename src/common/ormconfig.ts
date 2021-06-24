@@ -6,20 +6,29 @@ dotenv.config({
   path: path.join(__dirname, '../../.env'),
 });
 const {
-  POSTGRES_PORT = '0',
   POSTGRES_HOST,
   POSTGRES_USER,
   POSTGRES_PASSWORD,
   POSTGRES_DB,
+  POSTGRES_CONTAINER_PORT,
 } = process.env;
 
-export const config = {
+const ORMConfig = {
   type: 'postgres',
-  synchronize: true,
+  synchronize: false,
+  dropSchema: false,
+  migrationsRun: false,
   entities: ['src/entities/*.ts'],
-  logging: true,
+  migrations: ['src/migrations/**/*.ts'],
+  cli: {
+    entitiesDir: 'src/entities',
+    migrationsDir: 'src/migrations',
+  },
+  logging: false,
   host: POSTGRES_HOST,
-  port: Number.parseInt(POSTGRES_PORT, 10),
+  port: POSTGRES_CONTAINER_PORT
+    ? Number.parseInt(POSTGRES_CONTAINER_PORT, 10)
+    : 5432,
   username: POSTGRES_USER,
   password: POSTGRES_PASSWORD,
   database: POSTGRES_DB,
@@ -27,3 +36,5 @@ export const config = {
   reconnectTries: Number.MAX_VALUE,
   reconnectionInterval: 1000,
 } as ConnectionOptions;
+
+export = ORMConfig;

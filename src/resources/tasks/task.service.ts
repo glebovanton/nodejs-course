@@ -2,27 +2,26 @@ import * as tasksRepo from './task.memory.repository'
 
 import { Task } from '../../entities/Task';
 
-const getTasksByBoardId = (boardId: string): Promise<Task[] | null> =>
-  tasksRepo.getTasksByBoardId(boardId);
+const getTasks = (): Promise<Task[] | null> =>
+  tasksRepo.getTasks();
 
 const postTask = (task: Task): Promise<Task> => tasksRepo.postTask(task);
 
-const getTaskByBoardIdAndTaskId = (
-  boardId: string,
+const getTaskById = (
   taskId: string
 ): Promise<Task | null> =>
-  tasksRepo.getTaskByBoardIdAndTaskId(boardId, taskId);
+  tasksRepo.getTaskById(taskId);
 
 const updateTask = (task: Task): Promise<Task | null> =>
   tasksRepo.updateTask(task);
 
-const deleteTask = (boardId: string, taskId: string): Promise<boolean> =>
-  tasksRepo.deleteTask(boardId, taskId);
+const deleteTask = (taskId: string): Promise<boolean> =>
+  tasksRepo.deleteTask(taskId);
 
 export {
   deleteTask,
-  getTasksByBoardId,
-  getTaskByBoardIdAndTaskId,
+  getTasks,
+  getTaskById,
   postTask,
   updateTask,
 };

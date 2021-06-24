@@ -1,6 +1,6 @@
 import * as express from 'express';
 import { Request, Response } from 'express';
-import { CREATED, BAD_REQUEST, NO_CONTENT, NOT_FOUND } from 'http-status-codes';
+import { CREATED, BAD_REQUEST, OK, NOT_FOUND } from 'http-status-codes';
 import { User } from '../../entities/User';
 import * as usersService from './user.service';
 
@@ -95,23 +95,17 @@ router.route('/:id').put(
 router.route('/:id').delete(
   async (req: Request, res: Response): Promise<void> => {
     const { id }: RequestParams = req.params;
-    const users: User[] = await usersService.getAllUsers();
-    if (id) {
-      const isExist: boolean = (await users).some((user) => user.id === id);
-      if (isExist) {
-        await usersService.deleteUser(id);
-        res.status(NO_CONTENT).json({
-          message: 'The user has been deleted',
-        });
-      } else {
-        res.status(NOT_FOUND).json({
-          message: 'User not found',
-        });
-      }
-    } else {
-      res.status(BAD_REQUEST).json({
-        message: 'Bad request',
+    if (!id) {
+      res.status(BAD_REQUEST).json({ message: 'Bad request' });
+      return;
+    }
+    const user = await usersService.deleteUser(id);
+    if (user) {
+      res.status(OK).json({
+        message: 'The user has been deleted',
       });
+    } else {
+      res.status(BAD_REQUEST).json({ message: 'Bad request' });
     }
   }
 );

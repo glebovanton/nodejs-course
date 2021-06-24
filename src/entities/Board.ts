@@ -1,25 +1,20 @@
 import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
-
-export interface IColumn {
-  id?: string;
-  title: string;
-  order: number;
-}
+import { TaskColumn } from './Column';
 
 export interface IBoard {
   id?: string;
   title: string;
-  columns: IColumn[];
+  columns: TaskColumn[];
 }
 
-@Entity('Board')
+@Entity()
 export class Board {
-  @PrimaryGeneratedColumn('increment')
-  id?: string;
+  @PrimaryGeneratedColumn('uuid')
+  public id?: string;
 
-  @Column('varchar', { length: 25 })
-  title: string;
+  @Column()
+  public title: string;
 
-  @Column('json', { nullable: true })
-  columns: IColumn[];
+  @Column('simple-json')
+  public columns: TaskColumn[];
 }

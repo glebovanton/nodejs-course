@@ -1,18 +1,19 @@
 import 'reflect-metadata';
 import { createConnection } from 'typeorm';
-import { config } from '../common/ormconfig';
+import ORMConfig from '../common/ormconfig';
+
+const { stdout, stderr } = process;
 
 const connectToDB = async () => {
   let connection;
-
   try {
-    connection = await createConnection(config);
+    connection = await createConnection(ORMConfig);
     if (!connection.isConnected) {
       await connection.connect();
     }
-    console.log('Connected To PostgreSQL!');
+    stdout.write('Connected To PostgreSQL!');
   } catch (err) {
-    console.log('Err', err);
+    stderr.write('DB connection err', err);
   }
 };
 
@@ -21,6 +22,6 @@ export const tryDbConnect = async (cb: () => void): Promise<void> => {
     await connectToDB();
     cb();
   } catch (err) {
-    console.log('DB connection err', err);
+    stderr.write('DB connection err', err);
   }
 };

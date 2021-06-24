@@ -1,11 +1,12 @@
 import * as express from 'express';
 import { Request, Response } from 'express';
 import { CREATED, BAD_REQUEST, NO_CONTENT, NOT_FOUND } from 'http-status-codes';
-import { Board, IColumn } from '../../entities/Board';
+import { Board } from '../../entities/Board';
+import { TaskColumn } from '../../entities/Column';
 import * as boardsService from './board.service';
 
 type RequestParams = { id?: string };
-type RequestBody = { title?: string; columns?: IColumn[] };
+type RequestBody = { title?: string; columns?: TaskColumn[] };
 
 const router = express.Router();
 

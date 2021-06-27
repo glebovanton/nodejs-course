@@ -4,6 +4,7 @@ import * as path from 'path';
 import * as swaggerUI from 'swagger-ui-express';
 import * as YAML from 'yamljs';
 
+import { loginRouter } from './resources/login/login.router';
 import { boardRouter } from './resources/boards/board.router';
 import { userRouter } from './resources/users/user.router';
 import { taskRouter } from './resources/tasks/task.router';
@@ -35,6 +36,7 @@ app.use('/', (req: Request, res: Response, next: NextFunction) => {
   next();
 });
 
+app.use('/login', loginRouter);
 app.use('/users', userRouter);
 app.use('/boards', boardRouter);
 app.use('/boards', taskRouter);

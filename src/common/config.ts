@@ -14,7 +14,14 @@ dotenv.config({
   path: path.join(__dirname, '../../.env'),
 });
 
-const {PORT,NODE_ENV, MONGO_CONNECTION_STRING, JWT_SECRET_KEY, AUTH_MODE, POSTGRES_CONTAINER_PORT} = process.env
+const {
+  PORT,
+  NODE_ENV,
+  MONGO_CONNECTION_STRING,
+  JWT_SECRET_KEY,
+  AUTH_MODE,
+  POSTGRES_CONTAINER_PORT,
+} = process.env;
 
 export const config: IConfig = {
   PORT,

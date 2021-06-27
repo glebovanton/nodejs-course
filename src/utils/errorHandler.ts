@@ -20,7 +20,7 @@ const errorHandler = (error: Error, type: string): void => {
     `log/${logFileName}Err.log`,
     `${type} detected: ${error.message} \n`
   );
-  stderr.write(`${type} detected: ${isStack ? error.stack : error.message}`);
+  stderr.write(` ${type} detected: ${isStack ? error.stack : error.message} `);
 };
 
 export const runMorganLogging = (app: Express): void => {

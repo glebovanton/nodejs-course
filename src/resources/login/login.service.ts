@@ -10,7 +10,11 @@ export const signToken = async (
 ): Promise<string | null> => {
   const user = await getUserByProps(signLogin, signPassword);
   if (user && JWT_SECRET_KEY) {
-    return jwt.sign({ signLogin, signPassword }, JWT_SECRET_KEY);
+    if ((user?.id && user?.login)) {
+      const { id, login } = user;
+      return jwt.sign({ id, login }, JWT_SECRET_KEY);
+    }
+    return null;
   }
   return null;
 };

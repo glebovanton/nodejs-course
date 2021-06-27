@@ -10,7 +10,7 @@ const ErrorTypeEnum = Object.freeze({
   UncaughtException: 'Uncaught exception',
 });
 
-const accessLogSrteam = createWriteStream('log/accessLog.log');
+const accessLogStream = createWriteStream('log/accessLog.log');
 const { exit, stderr } = process;
 
 const errorHandler = (error: Error, type: string): void => {
@@ -29,7 +29,7 @@ export const runMorganLogging = (app: Express): void => {
   app.use(
     morgan(
       ':remote-addr - :remote-user [:date[clf]] ":referrer" ""Url- :url" "Method- :method" "Body-:body" "Query- :query" "Status- :status""',
-      { stream: accessLogSrteam }
+      { stream: accessLogStream }
     )
   );
 };

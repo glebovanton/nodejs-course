@@ -11,7 +11,7 @@ const connectToDB = async () => {
     if (!connection.isConnected) {
       await connection.connect();
     }
-    stdout.write('Connected To PostgreSQL!');
+    stdout.write('Connected To PostgreSQL!\n');
   } catch (err) {
     stderr.write('DB connection err', err);
   }

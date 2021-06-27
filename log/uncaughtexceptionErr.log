@@ -1,1 +1,18 @@
-Uncaught exception detected: listen EADDRINUSE: address already in use :::4000 
+Uncaught exception detected: ⨯ Unable to compile TypeScript:
+[96msrc/common/ormconfig.ts[0m:[93m15[0m:[93m21[0m - [91merror[0m[90m TS4111: [0mProperty 'POSTGRES_HOST' comes from an index signature, so it must be accessed with ['POSTGRES_HOST'].
+
+[7m15[0m   host: process.env.POSTGRES_HOST,
+[7m  [0m [91m                    ~~~~~~~~~~~~~[0m
+[96msrc/common/ormconfig.ts[0m:[93m17[0m:[93m25[0m - [91merror[0m[90m TS4111: [0mProperty 'POSTGRES_USER' comes from an index signature, so it must be accessed with ['POSTGRES_USER'].
+
+[7m17[0m   username: process.env.POSTGRES_USER,
+[7m  [0m [91m                        ~~~~~~~~~~~~~[0m
+[96msrc/common/ormconfig.ts[0m:[93m18[0m:[93m25[0m - [91merror[0m[90m TS4111: [0mProperty 'POSTGRES_PASSWORD' comes from an index signature, so it must be accessed with ['POSTGRES_PASSWORD'].
+
+[7m18[0m   password: process.env.POSTGRES_PASSWORD,
+[7m  [0m [91m                        ~~~~~~~~~~~~~~~~~[0m
+[96msrc/common/ormconfig.ts[0m:[93m19[0m:[93m25[0m - [91merror[0m[90m TS4111: [0mProperty 'POSTGRES_DB' comes from an index signature, so it must be accessed with ['POSTGRES_DB'].
+
+[7m19[0m   database: process.env.POSTGRES_DB,
+[7m  [0m [91m                        ~~~~~~~~~~~[0m
+ 

@@ -1,84 +1,40 @@
-import { IBoard } from './board.model';
-import { deleteBoardInTasks } from '../tasks/task.memory.repository';
+import { getRepository } from 'typeorm';
+import { Board } from '../../entities/Board';
 
-const BOARDS: IBoard[] | [] = [];
-
-/**
- * Returns all boards
- *
- * @async
- * @function getAllBoards
- * @returns {Promise.<Board[]>} array of boards
- */
-const getAllBoards = async (): Promise<IBoard[]> =>
-  // TODO: mock implementation. should be replaced during task development
-  BOARDS;
-
-/**
- * Creates board
- *
- * @async
- * @function postBoard
- * @param {Board} board board
- * @returns {Promise.<Board>} added board
- */
-const postBoard = async (newBoard: IBoard): Promise<IBoard> => {
-  // TODO: mock implementation. should be replaced during task development
-  const boards: IBoard[] = BOARDS;
-  boards.push(newBoard);
-  return newBoard;
+const getAllBoards = async (): Promise<Board[]> => {
+  const boardRepository = getRepository(Board);
+  const boards = await boardRepository.find();
+  return boards;
 };
 
-/**
- * Returns board by board ID
- *
- * @async
- * @function getBoardById
- * @param {number} boardId board ID
- * @returns {Promise.<?Board>} board
- */
-const getBoardById = async (id: string): Promise<IBoard | null> =>
-  // TODO: mock implementation. should be replaced during task development
-  BOARDS.find((board: IBoard) => board?.id === id) || null;
-
-/**
- * Updates board by board ID and returs updated board
- *
- * @async
- * @function updateBoard
- * @param {Board} newBoard updated board
- * @returns {Promise.<?Board>} board
- */
-const updateBoard = async (newBoard: IBoard): Promise<IBoard | null> => {
-  const { id } = newBoard;
-  // TODO: mock implementation. should be replaced during task development
-  const boardIndex: number = BOARDS.findIndex(
-    (board: IBoard) => board?.id === id
-  );
-  if (boardIndex >= 0) {
-    BOARDS[boardIndex] = newBoard;
-    return BOARDS[boardIndex] || null;
-  }
-  return null;
+const postBoard = async (dto: Board): Promise<Board> => {
+  const boardRepository = getRepository(Board);
+  const newBoard = boardRepository.create(dto);
+  const savedBoard = await boardRepository.save(newBoard);
+  return savedBoard;
 };
 
-/**
- * Deletes board by board ID
- *
- * @async
- * @function deleteBoard
- * @param {number} id board ID
- * @returns {Promise.<boolean>} if board is deleted
- */
-const deleteBoard = async (boardId: string): Promise<boolean> => {
-  // TODO: mock implementation. should be replaced during task development
-  const boardIndex = BOARDS.findIndex((board: IBoard) => board?.id === boardId);
-  if (boardIndex >= 0) {
-    BOARDS.splice(boardIndex, 1);
-    await deleteBoardInTasks(boardId);
-    return true;
-  }
+const getBoardById = async (id: string): Promise<Board | null> => {
+  const boardRepository = getRepository(Board);
+  const res = await boardRepository.findOne(id);
+  if (res === undefined) return null;
+  return res;
+};
+
+const updateBoard = async (dto: Board): Promise<Board | null> => {
+  const { id } = dto;
+  const boardRepository = getRepository(Board);
+  const res = await boardRepository.findOne(id);
+  if (res === undefined || !id) return null;
+  const updatedRes = await boardRepository.update(id, dto);
+  return updatedRes.raw;
+};
+
+const deleteBoard = async (id: string): Promise<boolean> => {
+  const boardRepository = getRepository(Board);
+  const deletedRes = await boardRepository.delete(id);
+  if (deletedRes.affected) return true;
   return false;
 };
 
-export { deleteBoard, getAllBoards, getBoardById, postBoard, updateBoard }
+export { deleteBoard, getAllBoards, getBoardById, postBoard, updateBoard };

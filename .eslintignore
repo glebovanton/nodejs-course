@@ -4,3 +4,4 @@ build
 test
 jsdoc-docs
 log
+src/migrations

@@ -1,7 +1,7 @@
 import * as express from 'express';
 import { Request, Response } from 'express';
-import { CREATED, BAD_REQUEST, NO_CONTENT, NOT_FOUND } from 'http-status-codes';
-import { Task , ITask } from './task.model';
+import { CREATED, BAD_REQUEST, OK, NOT_FOUND } from 'http-status-codes';
+import { Task } from '../../entities/Task';
 import * as tasksService from './task.service';
 
 type RequestParams = { boardId?: string; taskId?: string; id?: string };
@@ -9,20 +9,13 @@ type RequestParams = { boardId?: string; taskId?: string; id?: string };
 const router = express.Router();
 
 router.route('/:boardId/tasks/').get(
-  async (req: Request, res: Response): Promise<void> => {
-    const { boardId }: RequestParams = req.params;
-    if (boardId) {
-      const tasks: ITask[] = await tasksService.getTasksByBoardId(boardId);
-      if ((await tasks).length) {
-        res.json(tasks);
-      } else {
-        res.status(NOT_FOUND).json({
-          message: 'Tasks not found',
-        });
-      }
+  async (_req: Request, res: Response): Promise<void> => {
+    const tasks: Task[] | null = await tasksService.getTasks();
+    if ((await tasks)?.length) {
+      res.json(tasks);
     } else {
-      res.status(BAD_REQUEST).json({
-        message: 'Bad request',
+      res.status(NOT_FOUND).json({
+        message: 'Tasks not found',
       });
     }
   }
@@ -31,18 +24,9 @@ router.route('/:boardId/tasks/').get(
 router.route('/:boardId/tasks/').post(
   async (req: Request, res: Response): Promise<void> => {
     const { boardId }: RequestParams = req.params;
-    const { title, order, description, userId, columnId }: ITask = req.body;
-    if (boardId && title && description && boardId) {
-      const result: ITask = await tasksService.postTask(
-        new Task({ title, order, description, userId, boardId, columnId })
-      );
-      if (typeof title === 'string') {
-        res.status(CREATED).json(Task.toResponse(result));
-      } else {
-        res.status(BAD_REQUEST).json({
-          message: 'Bad request',
-        });
-      }
+    const result: Task = await tasksService.postTask({ ...req.body, boardId });
+    if (result) {
+      res.status(CREATED).json(Task.toResponse(result));
     } else {
       res.status(BAD_REQUEST).json({
         message: 'Bad request',
@@ -55,8 +39,7 @@ router.route('/:boardId/tasks/:taskId').get(
   async (req: Request, res: Response): Promise<void> => {
     const { boardId, taskId }: RequestParams = req.params;
     if (boardId && taskId) {
-      const task: ITask | null = await tasksService.getTaskByBoardIdAndTaskId(
-        boardId,
+      const task: Task | null = await tasksService.getTaskById(
         taskId
       );
       if (task) {
@@ -76,28 +59,13 @@ router.route('/:boardId/tasks/:taskId').get(
 
 router.route('/:boardId/tasks/:id').put(
   async (req: Request, res: Response): Promise<void> => {
-    const { boardId, id }: RequestParams = req.params;
-    const { title, order, description, userId, columnId }: ITask = req.body;
-
-    if (id) {
-      const result: ITask | null = await tasksService.updateTask(
-        new Task({
-          id,
-          title,
-          order,
-          description,
-          userId,
-          boardId,
-          columnId,
-        })
-      );
-      if (typeof title === 'string' && result) {
-        res.json(result);
-      } else {
-        res.status(BAD_REQUEST).json({
-          message: 'Bad request',
-        });
-      }
+    const { boardId }: RequestParams = req.params;
+    const result: Task | null = await tasksService.updateTask({
+      ...req.body,
+      boardId,
+    });
+    if (result) {
+      res.json(result);
     } else {
       res.status(BAD_REQUEST).json({
         message: 'Bad request',
@@ -108,11 +76,11 @@ router.route('/:boardId/tasks/:id').put(
 
 router.route('/:boardId/tasks/:taskId').delete(
   async (req: Request, res: Response): Promise<void> => {
-    const { boardId, taskId }: RequestParams = req.params;
-    if (boardId && taskId) {
-      const result: boolean = await tasksService.deleteTask(boardId, taskId);
+    const { taskId }: RequestParams = req.params;
+    if (taskId) {
+      const result: boolean = await tasksService.deleteTask(taskId);
       if (result) {
-        res.status(NO_CONTENT).json({
+        res.status(OK).json({
           message: 'The task has been deleted',
         });
       } else {

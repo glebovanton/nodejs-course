@@ -1,84 +1,40 @@
-import { IUser } from './user.model';
-import { deleteUserInTasks } from '../tasks/task.memory.repository';
+import { getRepository } from 'typeorm';
+import { User } from '../../entities/User';
 
-const USERS: IUser[] = [];
-
-/**
- * Returns all users
- *
- * @async
- * @function getAllUsers
- * @returns {Promise.<User[]>} array of users
- */
-const getAllUsers = async (): Promise<IUser[]> =>
-  // TODO: mock implementation. should be replaced during task development
-  USERS;
-
-/**
- * Creates user
- *
- * @async
- * @function postUser
- * @param {User} user user
- * @returns {Promise.<User>} added user
- */
-const postUser = async (user: IUser): Promise<IUser> => {
-  // TODO: mock implementation. should be replaced during task development
-  USERS.push(user);
-  return user;
+const getAllUsers = async (): Promise<User[]> => {
+  const userRepository = getRepository(User);
+  const users = await userRepository.find();
+  return users;
 };
 
-/**
- * Returns user by user ID
- *
- * @async
- * @function getUserById
- * @param {number} id user ID
- * @returns {Promise.<?User>} user
- */
-const getUserById = async (id: string): Promise<IUser | null> =>
-  // TODO: mock implementation. should be replaced during task development
-  USERS.find((user: IUser) => user && user.id === id) || null;
+const postUser = async (dto: User): Promise<User> => {
+  const userRepository = getRepository(User);
+  const newUser = userRepository.create(dto);
+  const savedUser = await userRepository.save(newUser);
+  return savedUser;
+};
 
-/**
- * Updates user by user ID and returs updated user
- *
- * @async
- * @function updateUser
- * @param {User} newUser updated user
- * @returns {Promise.<?User>} user
- */
-const updateUser = async (newUser: IUser): Promise<IUser | null> => {
-  // TODO: mock implementation. should be replaced during task development
-  const userIndex = USERS.findIndex(
-    (user: IUser) => user && user.id === newUser.id
-  );
-  if (userIndex >= 0) {
-    USERS[userIndex] = newUser;
-    return USERS[userIndex] || null;
+const getUserById = async (id: string): Promise<User | null> => {
+  const userRepository = getRepository(User);
+  const res = await userRepository.findOne(id);
+  if (res === undefined) return null;
+  return res;
+};
+
+const updateUser = async (dto: User): Promise<User | null> => {
+  const { id } = dto;
+  const userRepository = getRepository(User);
+  if (id) {
+    const updatedUser = await userRepository.update(id, dto);
+    if (updatedUser) return updatedUser.raw;
   }
   return null;
 };
 
-/**
- * Deletes user by user ID
- *
- * @async
- * @function deleteUser
- * @param {number} id user ID
- * @returns {Promise.<boolean>} if user is deleted
- */
 const deleteUser = async (id: string): Promise<boolean> => {
-  // TODO: mock implementation. should be replaced during task development
-  const userIndex = USERS.findIndex((user: IUser) => user && user.id === id);
-  if (userIndex >= 0) {
-    const deleteCount = 1;
-
-    USERS.splice(userIndex, deleteCount);
-    await deleteUserInTasks(id);
-    return true;
-  }
-  return false;
+  const userRepository = getRepository(User);
+  const deletedRes = await userRepository.delete(id);
+  return !!deletedRes;
 };
 
 export { deleteUser, getAllUsers, getUserById, postUser, updateUser };

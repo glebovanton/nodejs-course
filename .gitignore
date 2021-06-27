@@ -3,3 +3,5 @@ build
 .idea/
 log
 jsdoc-docs
+.env.test
+.env

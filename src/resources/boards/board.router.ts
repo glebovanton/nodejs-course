@@ -1,17 +1,18 @@
 import * as express from 'express';
 import { Request, Response } from 'express';
 import { CREATED, BAD_REQUEST, NO_CONTENT, NOT_FOUND } from 'http-status-codes';
-import { Board , IBoard, IColumn } from './board.model';
+import { Board } from '../../entities/Board';
+import { TaskColumn } from '../../entities/Column';
 import * as boardsService from './board.service';
 
 type RequestParams = { id?: string };
-type RequestBody = { title?: string; columns?: IColumn[] };
+type RequestBody = { title?: string; columns?: TaskColumn[] };
 
 const router = express.Router();
 
 router.route('/').get(
   async (_req: Request, res: Response): Promise<void> => {
-    const boards: IBoard[] = await boardsService.getAllBoards();
+    const boards: Board[] = await boardsService.getAllBoards();
     // map board fields to exclude secret fields like "password"
     res.json(boards);
   }
@@ -21,7 +22,7 @@ router.route('/:id').get(
   async (req: Request, res: Response): Promise<void> => {
     const { id }: RequestParams = req.params;
     if (id) {
-      const board: IBoard | null = await boardsService.getBoardById(id);
+      const board: Board | null = await boardsService.getBoardById(id);
       if (board) {
         res.json(board);
       } else {
@@ -40,12 +41,10 @@ router.route('/:id').get(
 router.route('/').post(
   async (req: Request, res: Response): Promise<void> => {
     const { title = '', columns = [] }: RequestBody = req.body;
-    const createdBoard: IBoard = await boardsService.postBoard(
-      new Board({
-        title,
-        columns,
-      })
-    );
+    const createdBoard: Board = await boardsService.postBoard({
+      title,
+      columns,
+    });
     if (typeof title === 'string' && typeof columns === 'object') {
       res.status(CREATED).json(createdBoard);
     } else {
@@ -61,7 +60,7 @@ router.route('/:id').put(
     const { id }: RequestParams = req.params;
     const { title, columns }: RequestBody = req.body;
     if (id && title && columns) {
-      const result: IBoard | null = await boardsService.updateBoard({
+      const result: Board | null = await boardsService.updateBoard({
         id,
         title,
         columns,

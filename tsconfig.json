@@ -6,7 +6,6 @@
     "outDir": "./build",
     "rootDir": "./src",
     "downlevelIteration": false,
-    "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noImplicitReturns": true,
@@ -22,6 +21,8 @@
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "skipLibCheck": true,
+    "strict": true,
+    "strictPropertyInitialization": false,
     "baseUrl": "./src",
     "paths": {
       "@src/*": ["src/*"]

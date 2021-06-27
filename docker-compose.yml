@@ -5,12 +5,14 @@ services:
     container_name: rss_app
     image: workglebov/rss_app
     restart: always
-    command: npm run dev
     volumes:
       - ./log:/usr/app/log
       - ./src:/usr/app/src
     networks:
       - custom-network
+    environment:
+      PORT: ${PORT}
+      NODE_ENV: ${NODE_ENV}
     ports:
       - ${PORT}:${PORT}
     depends_on:
@@ -22,9 +24,10 @@ services:
     image: workglebov/rss_postgres
     restart: always
     ports:
-      - ${POSTGRES_PORT}:${POSTGRES_PORT}
+      - ${POSTGRES_CONTAINER_PORT}:${POSTGRES_CONTAINER_PORT}
     volumes:
-      - ./database/log:/usr/app/database/log
+      - ./database/data:/var/lib/postgresql/data
+      - ./database/log:/var/lib/postgresql/log
     networks:
       - custom-network
     environment:
@@ -33,5 +36,4 @@ services:
       POSTGRES_DB: ${POSTGRES_DB}
 networks:
   custom-network:
-    name: custom-network
     driver: bridge

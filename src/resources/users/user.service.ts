@@ -13,9 +13,19 @@ const postUser = async (user: IUser): Promise<IUser> =>
 const getUserById = (id: string): Promise<IUser | null> =>
   usersRepo.getUserById(id);
 
+const getUserByProps = (id: string): Promise<IUser | null> =>
+  usersRepo.getUserByProps(id);
+
 const updateUser = (user: IUser): Promise<IUser | null> =>
   usersRepo.updateUser(user);
 
 const deleteUser = (id: string): Promise<boolean> => usersRepo.deleteUser(id);
 
-export { deleteUser, getAllUsers, getUserById, postUser, updateUser };
+export {
+  deleteUser,
+  getAllUsers,
+  getUserByProps,
+  getUserById,
+  postUser,
+  updateUser,
+};

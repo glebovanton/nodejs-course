@@ -13,9 +13,6 @@ export const checkToken = (
 ): void | Response => {
   if (
     PATH_WHITELIST.includes(req.path)
-    // PATH_WHITELIST.find(
-    //   (path: string): boolean => req.path.lastIndexOf(path, 0) === 0
-    // )
   ) {
     return next();
   }

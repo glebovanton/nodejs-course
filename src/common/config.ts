@@ -8,6 +8,9 @@ interface IConfig {
   MONGO_CONNECTION_STRING?: string;
   JWT_SECRET_KEY?: string;
   AUTH_MODE?: boolean;
+  ADMIN_NAME: string;
+  ADMIN_LOGIN: string;
+  ADMIN_PASSWORD: string;
 }
 
 dotenv.config({
@@ -21,6 +24,9 @@ const {
   JWT_SECRET_KEY,
   AUTH_MODE,
   POSTGRES_CONTAINER_PORT,
+  ADMIN_NAME = 'admin',
+  ADMIN_LOGIN = 'admin',
+  ADMIN_PASSWORD = 'admin',
 } = process.env;
 
 export const config: IConfig = {
@@ -30,4 +36,7 @@ export const config: IConfig = {
   JWT_SECRET_KEY,
   POSTGRES_CONTAINER_PORT,
   AUTH_MODE: AUTH_MODE === 'true',
+  ADMIN_NAME,
+  ADMIN_LOGIN,
+  ADMIN_PASSWORD,
 };

@@ -23,10 +23,9 @@ const getUserById = async (id: string): Promise<User | null> => {
 
 const getUserByProps = async (
   login: string,
-  password: string
 ): Promise<User | null> => {
   const userRepository = getRepository(User);
-  const res = await userRepository.findOne({ where: { login, password } });
+  const res = await userRepository.findOne({ where: { login } });
   if (res === undefined) return null;
   return res;
 };

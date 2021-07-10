@@ -1,6 +1,7 @@
 node_modules
 doc
 build
+dist
 test
 jsdoc-docs
 log

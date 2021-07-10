@@ -7,3 +7,5 @@ jsdoc-docs
 .env.test
 .env
 src/migrations
+dist
+dist/

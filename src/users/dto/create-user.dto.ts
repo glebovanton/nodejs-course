@@ -1,5 +1,3 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
-
 export interface IUser {
   id?: string;
   name: string;
@@ -7,18 +5,13 @@ export interface IUser {
   password?: string;
 }
 
-@Entity()
-export class User {
-  @PrimaryGeneratedColumn('uuid')
+export class CreateUserDto {
   id?: string;
 
-  @Column()
   name: string;
 
-  @Column()
   login: string;
 
-  @Column()
   password?: string;
 
   static toResponse(user: IUser): IUser {

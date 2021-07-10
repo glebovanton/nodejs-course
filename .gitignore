@@ -1,7 +1,9 @@
 node_modules
 build
+database
 .idea/
 log
 jsdoc-docs
 .env.test
 .env
+src/migrations

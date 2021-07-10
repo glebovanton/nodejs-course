@@ -4,6 +4,7 @@ import * as path from 'path';
 import * as swaggerUI from 'swagger-ui-express';
 import * as YAML from 'yamljs';
 
+import { loginRouter } from './resources/login/login.router';
 import { boardRouter } from './resources/boards/board.router';
 import { userRouter } from './resources/users/user.router';
 import { taskRouter } from './resources/tasks/task.router';
@@ -13,6 +14,7 @@ import {
   runUncaughtExceptLogging,
   runUnhandledRejLogging,
 } from './utils/errorHandler';
+import { checkToken } from './helpers/token';
 
 const app = express();
 
@@ -25,8 +27,7 @@ runMorganLogging(app);
 runUnhandledRejLogging();
 runUncaughtExceptLogging();
 
-app.use('/doc', swaggerUI.serve, swaggerUI.setup(swaggerDocument));
-
+app.use('/', checkToken)
 app.use('/', (req: Request, res: Response, next: NextFunction) => {
   if (req.originalUrl === '/') {
     res.send('Service is running!');
@@ -34,7 +35,10 @@ app.use('/', (req: Request, res: Response, next: NextFunction) => {
   }
   next();
 });
+app.use('/doc', swaggerUI.serve, swaggerUI.setup(swaggerDocument));
+app.use('/login', loginRouter);
 
+// routes with Authorization
 app.use('/users', userRouter);
 app.use('/boards', boardRouter);
 app.use('/boards', taskRouter);

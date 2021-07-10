@@ -21,6 +21,15 @@ const getUserById = async (id: string): Promise<User | null> => {
   return res;
 };
 
+const getUserByProps = async (
+  login: string,
+): Promise<User | null> => {
+  const userRepository = getRepository(User);
+  const res = await userRepository.findOne({ where: { login } });
+  if (res === undefined) return null;
+  return res;
+};
+
 const updateUser = async (dto: User): Promise<User | null> => {
   const { id } = dto;
   const userRepository = getRepository(User);
@@ -37,4 +46,11 @@ const deleteUser = async (id: string): Promise<boolean> => {
   return !!deletedRes;
 };
 
-export { deleteUser, getAllUsers, getUserById, postUser, updateUser };
+export {
+  deleteUser,
+  getAllUsers,
+  getUserById,
+  getUserByProps,
+  postUser,
+  updateUser,
+};

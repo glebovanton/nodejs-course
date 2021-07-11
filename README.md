@@ -41,20 +41,20 @@ For more information about OpenAPI/Swagger please visit https://swagger.io/.
 ### Express
 -- | #1 | #2 
 --- | --- | --- 
-Requests | [total, rate, throughput] | 65584, 6558.34, 6558.26
-Duration | [total, attack, wait] | 10s, 10s, 130.149µs
-Latencies | [min, mean, 50, 90, 95, 99, max]	 | 122.225µs, 151.803µs, 147.911µs, 160.265µs, 164.189µs, 194.74µs, 3.094ms
+Mean | [response/sec] | 206.75
+Response time (msec) | [min, max, median, p95, p99] | 1, 5312, 6, 4123.5, 5071
+Scenario counts | [amount (%)]	 | 600 (100%)
 Success | [ratio] | 100.00%
-Status Codes | [code:count] | 200:65584
+Codes | [code:count] | 200: 1198, 201: 600, 204: 477, 404: 662, 500: 64
 
 ### Fastify
 -- | #1 | #2
 --- | --- | --- 
-Requests | [total, rate, throughput] | 118489, 11848.94, 11848.84
-Duration | [total, attack, wait] | 10s, 10s, 80.298µs
-Latencies | [min, mean, 50, 90, 95, 99, max] | 63.858µs, 83.763µs, 81.544µs, 88.909µs, 92.922µs, 136.839µs, 8.852ms
+Mean | [response/sec] | 192.8
+Response time (msec) | [min, max, median, p95, p99] | 1, 4893, 3, 3978, 4701.5
+Scenario counts | [amount (%)]	 | 600 (100%)
 Success | [ratio] | 100.00%
-Status Codes | [code:count] | 200:118489
+Codes | [code:count] | 200: 1205, 201: 600, 204: 494, 404: 638, 500: 63
 
 ## Testing
 

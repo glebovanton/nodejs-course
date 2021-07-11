@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { getRepository } from 'typeorm';
 import * as jwt from 'jsonwebtoken';
-import { LoginDto } from './dto/login.dto';
 import { User } from '../entities/User';
 import { config } from '../common/config';
 import { checkHashedPassword } from '../helpers/hash';

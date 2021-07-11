@@ -1,6 +1,3 @@
-import { Column, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
-import { User } from '../../entities/User';
-import { Board } from '../../entities/Board';
 import { ITask } from 'src/interface/task.interface';
 
 export class CreateTaskDto {

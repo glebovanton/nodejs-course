@@ -31,8 +31,8 @@ export class BoardsController {
   async findOne(@Res() res, @Param('id') id: string) {
     const board = await this.boardsService.findOne(id);
     return board
-      ? res.status(HttpStatus.OK).json(board)
-      : res.status(HttpStatus.NOT_FOUND).json({
+      ? res.status(HttpStatus.OK).send(board)
+      : res.status(HttpStatus.NOT_FOUND).send({
           message: 'Board not found',
         });
   }
@@ -49,10 +49,10 @@ export class BoardsController {
   async remove(@Res() res, @Param('id') id: string) {
     const isRemoved = await this.boardsService.remove(id);
     return isRemoved
-      ? res.status(HttpStatus.NO_CONTENT).json({
+      ? res.status(HttpStatus.NO_CONTENT).send({
           message: 'The board has been deleted',
         })
-      : res.status(HttpStatus.NOT_FOUND).json({
+      : res.status(HttpStatus.NOT_FOUND).send({
           message: 'Board not found',
         });
   }

@@ -37,8 +37,8 @@ export class TasksController {
   async findOne(@Res() res, @Param('id') id: string) {
     const task = await this.tasksService.findOne(id);
     return task
-      ? res.status(HttpStatus.OK).json(task)
-      : res.status(HttpStatus.NOT_FOUND).json({
+      ? res.status(HttpStatus.OK).send(task)
+      : res.status(HttpStatus.NOT_FOUND).send({
           message: 'Task not found',
         });
   }
@@ -52,10 +52,10 @@ export class TasksController {
   async remove(@Res() res, @Param('id') id: string) {
     const isRemoved = await this.tasksService.remove(id);
     return isRemoved
-      ? res.status(HttpStatus.NO_CONTENT).json({
+      ? res.status(HttpStatus.NO_CONTENT).send({
           message: 'The task has been deleted',
         })
-      : res.status(HttpStatus.NOT_FOUND).json({
+      : res.status(HttpStatus.NOT_FOUND).send({
           message: 'Task not found',
         });
   }

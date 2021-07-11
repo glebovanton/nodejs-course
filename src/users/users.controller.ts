@@ -34,8 +34,8 @@ export class UsersController {
   async findOne(@Res() res, @Param('id') id: string) {
     const user = await this.usersService.findOne(id);
     return user
-      ? res.status(HttpStatus.OK).json(User.toResponse(user))
-      : res.status(HttpStatus.NOT_FOUND).json({
+      ? res.status(HttpStatus.OK).send(User.toResponse(user))
+      : res.status(HttpStatus.NOT_FOUND).send({
           message: 'User not found',
         });
   }
@@ -50,10 +50,10 @@ export class UsersController {
   async remove(@Res() res, @Param('id') id: string) {
     const isRemoved = await this.usersService.remove(id);
     return isRemoved
-      ? res.status(HttpStatus.NO_CONTENT).json({
+      ? res.status(HttpStatus.NO_CONTENT).send({
           message: 'The user has been deleted',
         })
-      : res.status(HttpStatus.NOT_FOUND).json({
+      : res.status(HttpStatus.NOT_FOUND).send({
           message: 'User not found',
         });
   }

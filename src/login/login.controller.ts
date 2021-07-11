@@ -13,7 +13,7 @@ export class LoginController {
     const token = await this.loginService.signToken(login, password);
     return !token
       ? res.status(HttpStatus.FORBIDDEN).send('Incorrect login or password')
-      : res.status(HttpStatus.OK).json({
+      : res.status(HttpStatus.OK).send({
           token,
         });
   }

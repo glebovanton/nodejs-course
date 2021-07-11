@@ -11,6 +11,7 @@ interface IConfig {
   ADMIN_NAME: string;
   ADMIN_LOGIN: string;
   ADMIN_PASSWORD: string;
+  USE_FASTIFY?: boolean;
 }
 
 dotenv.config({
@@ -27,6 +28,7 @@ const {
   ADMIN_NAME = 'admin',
   ADMIN_LOGIN = 'admin',
   ADMIN_PASSWORD = 'admin',
+  USE_FASTIFY,
 } = process.env;
 
 export const config: IConfig = {
@@ -39,4 +41,5 @@ export const config: IConfig = {
   ADMIN_NAME,
   ADMIN_LOGIN,
   ADMIN_PASSWORD,
+  USE_FASTIFY: USE_FASTIFY === 'true',
 };

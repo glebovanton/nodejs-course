@@ -9,7 +9,7 @@ import { Observable } from 'rxjs';
 import { config } from '../common/config';
 import { PATH_WHITELIST } from '../common/constants';
 
-const { JWT_SECRET_KEY } = config;
+const { JWT_SECRET_KEY, USE_FASTIFY } = config;
 
 @Injectable()
 export class AuthGuard implements CanActivate {
@@ -17,9 +17,11 @@ export class AuthGuard implements CanActivate {
     context: ExecutionContext,
   ): boolean | Promise<boolean> | Observable<boolean> {
     const req = context.switchToHttp().getRequest();
-    const authHeader = req.header('Authorization');
+    const authHeader = USE_FASTIFY
+      ? req?.headers?.authorization ?? ''
+      : req?.header('Authorization') ?? '';
     const [type, token] = authHeader?.split(' ') ?? [];
-    if (PATH_WHITELIST.includes(req.path)) {
+    if (PATH_WHITELIST.includes(USE_FASTIFY ? req?.url : req?.path)) {
       return true;
     }
     if (type !== 'Bearer' || !token || !JWT_SECRET_KEY) {

@@ -1,8 +1,9 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { APP_GUARD } from '@nestjs/core';
+import { APP_FILTER, APP_GUARD } from '@nestjs/core';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { HttpExceptionFilter } from './filters/http-exception.filter';
 import { UsersModule } from './users/users.module';
 import { BoardsModule } from './boards/boards.module';
 import { TasksModule } from './tasks/tasks.module';
@@ -22,6 +23,10 @@ import { AuthGuard } from './guards/auth.guard';
   ],
   controllers: [AppController],
   providers: [
+    {
+      provide: APP_FILTER,
+      useClass: HttpExceptionFilter,
+    },
     {
       provide: APP_GUARD,
       useClass: AuthGuard,

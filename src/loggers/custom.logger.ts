@@ -12,28 +12,29 @@ const LogTypeEnum = Object.freeze({
 });
 
 const errorHandler = (message: string, type: string): void => {
-  writeFileSync(`log/${type}.log`, `${type} detected: ${message} \n`);
-  stderr.write(` ${type} detected: ${message} `);
+  const errorLine = `${new Date().toUTCString()}: ${type} detected / message: ${message} \n`;
+  writeFileSync(`log/${type}.log`, errorLine);
+  if (type !== LogTypeEnum.Log) stderr.write(errorLine);
 };
 
 export class CustomLogger implements LoggerService {
-  log(message: any) {
+  log(message: string) {
     errorHandler(message, LogTypeEnum.Log);
   }
 
-  error(message: any) {
+  error(message: string) {
     errorHandler(message, LogTypeEnum.Error);
   }
 
-  warn(message: any) {
+  warn(message: string) {
     errorHandler(message, LogTypeEnum.Warn);
   }
 
-  debug?(message: any) {
+  debug?(message: string) {
     errorHandler(message, LogTypeEnum.Debug);
   }
 
-  verbose?(message: any) {
+  verbose?(message: string) {
     errorHandler(message, LogTypeEnum.Verbose);
   }
 }

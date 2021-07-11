@@ -21,7 +21,7 @@ export class UsersService {
     return await userRepository.find();
   }
 
-  async findOne(id: string): Promise<User> {
+  async findOne(id: string): Promise<User | null> {
     const userRepository = getRepository(User);
     const res = await userRepository.findOne(id);
     if (res === undefined) return null;

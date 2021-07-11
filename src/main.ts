@@ -4,7 +4,6 @@ import * as path from 'path';
 import * as YAML from 'yamljs';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import {
-  FastifyAdapter,
   NestFastifyApplication,
 } from '@nestjs/platform-fastify';
 import { SwaggerModule } from '@nestjs/swagger';

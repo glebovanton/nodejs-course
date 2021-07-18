@@ -1,11 +1,5 @@
 import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
-import { TaskColumn } from './Column';
-
-export interface IBoard {
-  id?: string;
-  title: string;
-  columns: TaskColumn[];
-}
+import { IColumn } from 'src/interface/column.interface';
 
 @Entity()
 export class Board {
@@ -16,5 +10,5 @@ export class Board {
   public title: string;
 
   @Column('simple-json')
-  public columns: TaskColumn[];
+  public columns: IColumn[];
 }

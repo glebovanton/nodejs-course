@@ -9,7 +9,6 @@ export interface IUser {
 
 @Entity()
 export class User {
-
   @PrimaryGeneratedColumn('uuid')
   id?: string;
 

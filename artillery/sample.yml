@@ -1,0 +1,63 @@
+config:
+  target: "http://0.0.0.0:4000"
+  phases:
+    - duration: 300
+      arrivalRate: 25
+
+before:
+  flow:
+    - log: "Get auth token"
+    - post:
+        url: "/login"
+        json:
+          username: "admin"
+          password: "admin"
+        capture:
+          - json: $.token
+            as: token
+    - post:
+        url: "/login"
+        json:
+          name: "userForTest"
+          login: "userForTest"
+          password: "userForTest"
+        capture:
+          - json: $.id
+            as: testUserId
+scenarios:
+  - flow:
+      - get:
+          url: "/users"
+          headers:
+            authorization: "Bearer {{ token }}"
+      - post:
+          url: "/users"
+          json:
+            name: "myUsername"
+            login: "myUsername"
+            password: "myPassword"
+          headers:
+            authorization: "Bearer {{ token }}"
+      - get:
+          url: "/users/{{testUserId}}"
+          headers:
+            authorization: "Bearer {{ token }}"
+      - put:
+          url: "/users/{{testUserId}}"
+          json:
+            name: "changedUsername"
+            login: "changedLogin"
+            password: "changedPassword"
+          headers:
+            authorization: "Bearer {{ token }}"
+      - delete:
+          url: "/users/{{testUserId}}"
+          headers:
+            authorization: "Bearer {{ token }}"
+after:
+  flow:
+    - log: "Invalidate token"
+    - post:
+        url: "/logout"
+        json:
+          token: "{{ token }}"

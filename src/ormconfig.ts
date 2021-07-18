@@ -1,9 +1,9 @@
 import { ConnectionOptions } from 'typeorm';
-import dotenv from 'dotenv';
-import path from 'path';
+import { config } from 'dotenv';
+import { join } from 'path';
 
-dotenv.config({
-  path: path.join(__dirname, '../.env'),
+config({
+  path: join(__dirname, '../.env'),
 });
 const {
   POSTGRES_HOST,
@@ -22,8 +22,8 @@ const ORMConfig = {
     : 5432,
   username: POSTGRES_USER,
   password: POSTGRES_PASSWORD,
-  entities: [path.join(__dirname, '/entities/**/*{.ts,.js}')],
-  migrations: [path.join(__dirname, '/migrations/**/*{.ts,.js}')],
+  entities: [join(__dirname, '/entities/**/*{.ts,.js}')],
+  migrations: [join(__dirname, '/migrations/**/*{.ts,.js}')],
   synchronize: false,
   cli: {
     entitiesDir: 'src/entities',

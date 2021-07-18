@@ -36,6 +36,26 @@ After starting the app on port (8080 as default) you can open
 in your browser OpenAPI documentation by typing http://localhost:8080/doc/.
 For more information about OpenAPI/Swagger please visit https://swagger.io/.
 
+## Compare Express and Fastify
+
+### Express
+-- | #1 | #2 
+--- | --- | --- 
+Mean | [response/sec] | 206.75
+Response time (msec) | [min, max, median, p95, p99] | 1, 5312, 6, 4123.5, 5071
+Scenario counts | [amount (%)]	 | 600 (100%)
+Success | [ratio] | 100.00%
+Codes | [code:count] | 200: 1198, 201: 600, 204: 477, 404: 662, 500: 64
+
+### Fastify
+-- | #1 | #2
+--- | --- | --- 
+Mean | [response/sec] | 192.8
+Response time (msec) | [min, max, median, p95, p99] | 1, 4893, 3, 3978, 4701.5
+Scenario counts | [amount (%)]	 | 600 (100%)
+Success | [ratio] | 100.00%
+Codes | [code:count] | 200: 1205, 201: 600, 204: 494, 404: 638, 500: 63
+
 ## Testing
 
 After application running open new terminal and enter:
